@@ -11,13 +11,16 @@ import {
   SubmitButton,
   Subtitle
 } from './Auth.styled';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logIn } from 'store/auth/operations';
 import { useState } from 'react';
+import { lang } from 'lang/lang';
+import { selectUser } from 'store/auth/selectors';
 
 export const Auth = () => {
   const dispatch = useDispatch();
   const [showPass, setShowPass] = useState({ showPass: false });
+  const { local } = useSelector(selectUser);
 
   const onSubmit = e => {
     e.preventDefault();
@@ -40,16 +43,16 @@ export const Auth = () => {
       <AuthFormWrapper>
         <AuthLogo>
           <SvgIcon w={190} h={41} icon={'logo'} />
-          <Subtitle>content managment</Subtitle>
+          <Subtitle>{lang[local].site_title}</Subtitle>
         </AuthLogo>
-        <AuthCaption>Log in</AuthCaption>
+        <AuthCaption>{lang[local].login}</AuthCaption>
         <AuthForm onSubmit={onSubmit} autoComplete="false">
           <AuthLabel>
-            E-Mail
+            {lang[local].e_mail}
             <AuthInput name="email" type="text" />
           </AuthLabel>
           <AuthLabel>
-            Password
+            {lang[local].password}
             <AuthInput name="password" type={showPass ? 'password' : 'text'} />
             <ButtonShowPassword onClick={hendleShowPass} type="button">
               <SvgIcon
@@ -59,7 +62,7 @@ export const Auth = () => {
               />
             </ButtonShowPassword>
           </AuthLabel>
-          <SubmitButton type="submit">Submit</SubmitButton>
+          <SubmitButton type="submit">{lang[local].submit}</SubmitButton>
         </AuthForm>
       </AuthFormWrapper>
     </StyledSectoion>

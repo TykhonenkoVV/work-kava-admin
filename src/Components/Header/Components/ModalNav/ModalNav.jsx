@@ -1,49 +1,11 @@
-import {
-  BackdropHeader,
-  CloseButton,
-  LangBtn,
-  SetButtonWrapper,
-  UserBtn
-} from './ModalNav.styled';
-import { Navigation } from '../Navigation/Navigation';
-import { useRef } from 'react';
+import { BackdropHeader, CloseButton } from './ModalNav.styled';
 import { SvgIcon } from 'Components/Global/SvgIcon/SvgIcon';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectUser } from 'store/auth/selectors';
-import {
-  FLAG_DE_URL,
-  FLAG_UA_URL,
-  FLAG_UK_URL,
-  LOCAL_DE,
-  LOCAL_EN,
-  PATCH_OPERATION
-} from 'utils/GlobalUtils';
-import { useModal } from 'hooks/useModal';
-import { useClickOutsideModal } from 'hooks/useClickOutsideModal';
-import { LangMenu } from '../LangMenu/LangMenu';
-import { useProductState } from 'hooks/useProductState';
-import { Loader } from 'Components/Global/Loader/Loader';
+import { Navigation } from 'Components/Global/Navigation/Navigation';
+import { SetButtons } from 'Components/Global/SetButtons/SetButtons';
 
 export const ModalNav = ({ action }) => {
-  const { local } = useSelector(selectUser);
-  const { isLoading, operation } = useProductState(null, PATCH_OPERATION);
-  const dispatch = useDispatch();
-
-  const langMenuRef = useRef(null);
-  const langButtonRef = useRef(null);
-
-  const { isModalOpen, closeModal, toggleModal } = useModal('langMenu');
-
-  useClickOutsideModal([langMenuRef, langButtonRef], closeModal, 'langMenu');
-
-  const handleLangClick = e => {
-    closeModal('langMenu');
-    dispatch(operation({ local: e.currentTarget.id }));
-  };
-
   return (
     <BackdropHeader>
-      {isLoading && <Loader />}
       <CloseButton
         type="button"
         onClick={() => action('mobileNav')}
@@ -52,34 +14,7 @@ export const ModalNav = ({ action }) => {
         <SvgIcon w={32} h={32} icon="close" />
       </CloseButton>
       <Navigation action={action} />
-      <SetButtonWrapper>
-        <LangMenu
-          isModalOpen={isModalOpen.langMenu}
-          forwardedRef={langMenuRef}
-          handleCklick={handleLangClick}
-        />
-        <LangBtn
-          type="button"
-          onClick={() => toggleModal('langMenu')}
-          ref={langButtonRef}
-        >
-          <img
-            width={40}
-            height={40}
-            src={
-              local === LOCAL_EN
-                ? FLAG_UK_URL
-                : local === LOCAL_DE
-                ? FLAG_DE_URL
-                : FLAG_UA_URL
-            }
-            alt="flag"
-          />
-        </LangBtn>
-        <UserBtn type="button">
-          <SvgIcon w={36} h={36} icon={'avatar'} aria-label="icon user" />
-        </UserBtn>
-      </SetButtonWrapper>
+      <SetButtons />
     </BackdropHeader>
   );
 };

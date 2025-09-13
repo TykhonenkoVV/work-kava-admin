@@ -20,16 +20,17 @@ import { Modal } from 'Components/Global/Modal/Modal';
 import { useModal } from 'hooks/useModal';
 import { StyledButton } from 'styles/components.styled';
 import { AskModal } from 'Components/Global/AskModal/AskModal';
+import { InfoModal } from 'Components/Global/InfoModal/InfoModal';
 
 export const EditForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [product, setProduct] = useState();
+  const [isChanged, setIsChanged] = useState(false);
   const { id } = useParams();
   const { local } = useSelector(selectUser);
-  const askModalRef = useRef(null);
   const formRef = useRef(null);
-  const { isModalOpen, openModal, closeModal } = useModal('askAdd');
+  const { isModalOpen, openModal, closeModal } = useModal();
   const location = useLocation();
 
   const props = useRef(location?.state?.props);
@@ -59,6 +60,13 @@ export const EditForm = () => {
       });
     }
   }, [id, collection]);
+
+  useEffect(() => {
+    if (isChanged) {
+      setIsChanged(false);
+      openModal('infoModal');
+    }
+  }, [isChanged, openModal]);
 
   const onChange = e => {
     const { name, value } = e.target;
@@ -97,15 +105,19 @@ export const EditForm = () => {
     }
   };
 
-  const handleActionEdit = prop => {
+  const handleActionEdit = () => {
+    closeModal('askEdit');
     dispatch(operation({ id: id, data: state }));
-    navigate(prop);
+    setIsChanged(true);
   };
 
+  const handleCloseModal = () => {
+    navigate(pathname);
+  };
   return (
     <>
       {isLoading && <Loader />}
-      <BackLink to={pathname}>{lang[local].baсkToProduktList}</BackLink>
+      <BackLink to={pathname}>{lang[local].baсk_to_produkt_list}</BackLink>
       <FormTitle>
         {local === LOCAL_EN
           ? product?.title_en
@@ -113,18 +125,18 @@ export const EditForm = () => {
           ? product?.title_de
           : product?.title_ua}
       </FormTitle>
-      <FormCaption>{lang[local].editProduct}</FormCaption>
+      <FormCaption>{lang[local].edit_product}</FormCaption>
       <StyledForm ref={formRef} onSubmit={handleSubmit}>
         <FormBlock
           data={data.title}
-          title={lang[local].nameTitle}
+          title={lang[local].name_title}
           onChange={onChange}
           product={product}
           type="text"
         />
         <FormBlock
           data={data.price}
-          title={lang[local].priceTitle}
+          title={lang[local].price_title}
           onChange={onChange}
           product={product}
           type="number"
@@ -132,7 +144,7 @@ export const EditForm = () => {
         {data?.ingredients && (
           <FormBlock
             data={data.ingredients}
-            title={lang[local].ingredientsTitle}
+            title={lang[local].ingredients_title}
             onChange={onChange}
             product={product}
             type="text"
@@ -141,7 +153,7 @@ export const EditForm = () => {
         {data?.weight && (
           <FormBlock
             data={data.weight}
-            title={lang[local].weightTitle}
+            title={lang[local].weight_title}
             onChange={onChange}
             product={product}
             type="number"
@@ -155,11 +167,7 @@ export const EditForm = () => {
         <StyledButton type="submit">{lang[local].submit}</StyledButton>
       </StyledForm>
       {isModalOpen.askEdit && (
-        <Modal
-          id="askEdit"
-          forwardetRef={askModalRef}
-          onClose={() => closeModal('askEdit')}
-        >
+        <Modal onClose={() => closeModal('askEdit')}>
           <AskModal
             action={handleActionEdit}
             data={pathname}
@@ -169,6 +177,11 @@ export const EditForm = () => {
               action: lang[local].submit
             }}
           />
+        </Modal>
+      )}
+      {isModalOpen.infoModal && !isLoading && (
+        <Modal onClose={handleCloseModal}>
+          <InfoModal data={pathname} text={lang[local].success_update} />
         </Modal>
       )}
     </>

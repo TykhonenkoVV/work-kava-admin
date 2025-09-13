@@ -1,19 +1,25 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 
+export const StyledMain = styled.main`
+  flex-grow: 1;
+  @media screen and (${props => props.theme.devices.middleTablet}) {
+    display: flex;
+  }
+`;
+
 export const StyledHomeSection = styled.section`
   padding-top: 24px;
   padding-bottom: 24px;
+  @media screen and (${props => props.theme.devices.middleTablet}) {
+    flex-grow: 1;
+  }
 `;
 
 export const Container = styled.div`
   padding: 0 24px;
   margin: 0 auto;
   text-align: center;
-
-  @media screen and (${props => props.theme.devices.desktop}) {
-    width: ${props => props.theme.sizes.desktop}px;
-  }
 `;
 
 export const BlockTitle = styled.h2`

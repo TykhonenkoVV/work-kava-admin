@@ -29,7 +29,7 @@ export const FilterSelect = ({
     <CardSelect className={className} ref={forwardedRef}>
       <FilterLabel>
         <CheckBox className={filterStatus === 'active' ? 'active' : null} />
-        {lang[local].onlyActiveCards}
+        {lang[local].only_active_cards}
         <input
           id="active"
           hidden
@@ -41,7 +41,7 @@ export const FilterSelect = ({
       </FilterLabel>
       <FilterLabel>
         <CheckBox className={filterStatus === 'archive' ? 'active' : null} />
-        {lang[local].onlyArchivedCards}
+        {lang[local].only_archived_cards}
         <input
           id="archive"
           hidden
@@ -53,7 +53,7 @@ export const FilterSelect = ({
       </FilterLabel>
       <FilterLabel>
         <CheckBox className={filterStatus === 'all' ? 'active' : null} />
-        {lang[local].allCards}
+        {lang[local].all_cards}
         <input
           id="all"
           hidden

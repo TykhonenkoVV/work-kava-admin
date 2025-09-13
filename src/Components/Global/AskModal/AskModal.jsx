@@ -11,8 +11,7 @@ export const AskModal = ({ action, onCloseModal, data, names }) => {
   const { local } = useSelector(selectUser);
 
   const onAction = () => {
-    onCloseModal();
-    if (action) action(data);
+    if (action) action();
   };
 
   const onCencel = () => {
@@ -21,7 +20,7 @@ export const AskModal = ({ action, onCloseModal, data, names }) => {
 
   return (
     <AskModalWrapper>
-      <AskModalTitle>{lang[local].selectAnAction}</AskModalTitle>
+      <AskModalTitle>{lang[local].select_an_action}</AskModalTitle>
       <AskModalButton onClick={onCencel}>{names.cancel}</AskModalButton>
       <AskModalButton onClick={onAction}>{names.action}</AskModalButton>
     </AskModalWrapper>

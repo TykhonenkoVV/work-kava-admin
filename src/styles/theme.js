@@ -1,26 +1,22 @@
 export const sizes = {
-  onlyMobile: '1023',
-  lessMobile: '413',
   mobile: '414',
-  tablet: '1024',
-  desktop: '1440'
+  middleTablet: '720',
+  tablet: '1024'
 };
 
 export const devices = {
-  lessMobile: `max-width: ${sizes.lessMobile}px`,
-  onlymobile: `max-width: ${sizes.onlyMobile}px`,
   mobile: `min-width: ${sizes.mobile}px`,
+  middleTablet: `min-width: ${sizes.middleTablet}px`,
   tablet: `min-width: ${sizes.tablet}px`,
-  desktop: `min-width: ${sizes.desktop}px`,
   retina: 'min-device-pixel-ratio: 2'
 };
 
 export const lightTheme = Object.freeze({
   colors: {
     primaryBackground: '#ffffffff',
-    elementsBackground: '#ebebebff',
-    buttonsBackground: '#c1c1c1ff',
-    primaryText: '#303030ff',
+    elementsBackground: '#eff7ffff',
+    buttonsBackground: '#d2e6ffff',
+    primaryText: '#313131ff',
     backdrop: 'rgba(0, 0, 0, 0.40)',
     validationError: '#ED4337',
     langMenuBackground: '#dbdbdbff',
@@ -30,7 +26,7 @@ export const lightTheme = Object.freeze({
 
 export const darkTheme = Object.freeze({
   colors: {
-    primaryBackground: '#303030ff',
+    primaryBackground: '#444444ff',
     elementsBackground: '#3f3f3fff',
     buttonsBackground: '#252525ff',
     primaryText: '#ffffff',

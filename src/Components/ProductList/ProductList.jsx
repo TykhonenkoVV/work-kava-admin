@@ -70,7 +70,7 @@ export const ProductList = ({ data, title, checkedRadio }) => {
   const index = getMaxIndex(data) + 1;
 
   useEffect(() => {
-    setFilterCaption(lang[local].onlyActiveCards);
+    setFilterCaption(lang[local].only_active_cards);
     dispatch(setStatusFilter('active'));
     setFilteredData(data.filter(el => el.archived === false));
   }, [dispatch, data, local]);
@@ -99,15 +99,15 @@ export const ProductList = ({ data, title, checkedRadio }) => {
 
   const handleRadioChange = id => {
     if (id === 'active') {
-      setFilterCaption(lang[local].onlyActiveCards);
+      setFilterCaption(lang[local].only_active_cards);
       setFilteredData(data.filter(el => el.archived === false));
     }
     if (id === 'archive') {
-      setFilterCaption(lang[local].onlyArchivedCards);
+      setFilterCaption(lang[local].only_archived_cards);
       setFilteredData(data.filter(el => el.archived === true));
     }
     if (id === 'all') {
-      setFilterCaption(lang[local].allCards);
+      setFilterCaption(lang[local].all_cards);
       setFilteredData(data);
     }
   };
@@ -119,9 +119,7 @@ export const ProductList = ({ data, title, checkedRadio }) => {
   return (
     <>
       {isLoading && <Loader />}
-      <CollectionTitle>
-        {title} {windowWidth}
-      </CollectionTitle>
+      <CollectionTitle>{title}</CollectionTitle>
       <FilterButton onClick={onTogle} type="button" ref={filterButtontRef}>
         <SvgIcon w={16} h={16} icon={'filter'} />
         <span>{filterCaption}</span>
@@ -149,7 +147,7 @@ export const ProductList = ({ data, title, checkedRadio }) => {
           h={windowWidth > 413 ? 16 : 12}
           icon={'add'}
         />
-        <span>{lang[local].addNewProduct}</span>
+        <span>{lang[local].add_new_product}</span>
       </AddCardButton>
       {filteredData?.length > 0 && (
         <StyledList>

@@ -14,7 +14,7 @@ export const FormBlockFile = ({ onChange }) => {
   const title = ['Jpg/Png', 'Webp'];
   return (
     <div>
-      <BlockTitle>{lang[local].imagesTitle}</BlockTitle>
+      <BlockTitle>{lang[local].images_title}</BlockTitle>
       {data.map((el, i) => (
         <StyledLabel key={el}>
           <Caption>{title[i]}</Caption>
@@ -30,7 +30,7 @@ export const FormBlockFile = ({ onChange }) => {
             type="button"
             onClick={() => document.getElementById(`${el}`).click()}
           >
-            {lang[local].selectFile}
+            {lang[local].select_file}
           </StyledButton>
         </StyledLabel>
       ))}

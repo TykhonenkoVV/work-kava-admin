@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 export const useModal = () => {
   const [isModalOpen, setIsModalOpen] = useState({
+    infoModal: false,
     selectFilter: false,
     langMenu: false,
     askAdd: false,

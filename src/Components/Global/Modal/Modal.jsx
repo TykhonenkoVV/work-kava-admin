@@ -4,7 +4,7 @@ import { Backdrop } from './Modal.styled.js';
 
 const modalRoot = document.querySelector('#modal-root');
 
-export const Modal = ({ onClose, children, forwardetRef, id }) => {
+export const Modal = ({ onClose, children }) => {
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
     return () => {
@@ -15,7 +15,7 @@ export const Modal = ({ onClose, children, forwardetRef, id }) => {
   const handleKeyDown = e => {
     if (e.code === 'Escape') {
       if (typeof onClose === 'function') {
-        onClose('askModal');
+        onClose();
       }
     }
   };
@@ -23,20 +23,13 @@ export const Modal = ({ onClose, children, forwardetRef, id }) => {
   const handleBackdropClick = e => {
     if (e.target === e.currentTarget) {
       if (typeof onClose === 'function') {
-        onClose('askModal');
+        onClose();
       }
     }
   };
 
   return createPortal(
-    <Backdrop
-      className="visually-hidden"
-      // id={id}
-      // ref={forwardetRef}
-      onClick={handleBackdropClick}
-    >
-      {children}
-    </Backdrop>,
+    <Backdrop onClick={handleBackdropClick}>{children}</Backdrop>,
     modalRoot
   );
 };

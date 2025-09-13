@@ -8,6 +8,8 @@ export const LangMenuUl = styled.ul`
   padding: 10px;
   background-color: ${({ theme }) => theme.colors.langMenuBackground};
   visibility: 1;
+  border: 1px solid ${({ theme }) => theme.colors.primaryText};
+  border-radius: 4px;
   transition: visibility ${props => props.theme.baseTransition};
   &.visually-hidden {
     position: absolute;
@@ -21,6 +23,12 @@ export const LangMenuUl = styled.ul`
     clip: rect(0 0 0 0);
     clip-path: inset(50%);
     margin: -1px;
+  }
+  @media screen and (${props => props.theme.devices.middleTablet}) {
+    top: 56px;
+    bottom: unset;
+    right: 50px;
+    left: unset;
   }
 `;
 

@@ -10,15 +10,17 @@ import { Item, LinkItem, List } from './Navigation.styled';
 import { useSelector } from 'react-redux';
 import { selectUser } from 'store/auth/selectors';
 import { getTitle } from 'services/home';
+import { useLocation } from 'react-router-dom';
 
 export const Navigation = ({ action }) => {
+  const { pathname } = useLocation();
   const paths = [
-    { pathname: COFFE_CLASSIC_PATH },
-    { pathname: COFFE_WITH_MILK_PATH },
-    { pathname: DESSERTS_PATH },
-    { pathname: BURGERS_PATH },
-    { pathname: ROLLS_PATH },
-    { pathname: HOT_DOGS_PATH }
+    { pathName: COFFE_CLASSIC_PATH },
+    { pathName: COFFE_WITH_MILK_PATH },
+    { pathName: DESSERTS_PATH },
+    { pathName: BURGERS_PATH },
+    { pathName: ROLLS_PATH },
+    { pathName: HOT_DOGS_PATH }
   ];
 
   const { local } = useSelector(selectUser);
@@ -27,9 +29,12 @@ export const Navigation = ({ action }) => {
     <nav>
       <List>
         {paths.map(el => (
-          <Item key={el.pathname}>
-            <LinkItem to={el.pathname} onClick={() => action('mobileNav')}>
-              {() => getTitle(el.pathname, local)}
+          <Item
+            key={el.pathName}
+            className={pathname === el.pathName ? 'active' : null}
+          >
+            <LinkItem to={el.pathName} onClick={action}>
+              {() => getTitle(el.pathName, local)}
             </LinkItem>
           </Item>
         ))}

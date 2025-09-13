@@ -31,7 +31,7 @@ export const AddForm = () => {
 
   const askModalRef = useRef(null);
   const formRef = useRef(null);
-  const { isModalOpen, openModal, closeModal } = useModal('askAdd');
+  const { isModalOpen, openModal, closeModal } = useModal();
   const location = useLocation();
   const props = useRef(location?.state?.props);
   const pathname = props?.current?.pathname;
@@ -97,31 +97,31 @@ export const AddForm = () => {
   return (
     <>
       {isLoading && <Loader />}
-      <BackLink to={pathname}>{lang[local].baсkToProduktList}</BackLink>
+      <BackLink to={pathname}>{lang[local].baсk_to_produkt_list}</BackLink>
       <FormTitle>{title}</FormTitle>
-      <FormCaption>{lang[local].addNewProduct}</FormCaption>
+      <FormCaption>{lang[local].add_new_product}</FormCaption>
       <StyledForm ref={formRef} onSubmit={handleSubmit}>
         <FormBlock
           data={data.title}
-          title={lang[local].nameTitle}
+          title={lang[local].name_title}
           onChange={onChange}
         />
         <FormBlock
           data={data.price}
-          title={lang[local].priceTitle}
+          title={lang[local].price_title}
           onChange={onChange}
         />
         {data?.ingredients && (
           <FormBlock
             data={data.ingredients}
-            title={lang[local].ingredientsTitle}
+            title={lang[local].ingredients_title}
             onChange={onChange}
           />
         )}
         {data?.weight && (
           <FormBlock
             data={data.weight}
-            title={lang[local].weightTitle}
+            title={lang[local].weight_title}
             onChange={onChange}
           />
         )}
@@ -143,8 +143,8 @@ export const AddForm = () => {
             onCloseModal={() => closeModal('askAdd')}
             data={pathname}
             names={{
-              cancel: lang[local].addNewProduct,
-              action: lang[local].baсkToProduktList
+              cancel: lang[local].add_new_product,
+              action: lang[local].baсk_to_produkt_list
             }}
           />
         </Modal>
