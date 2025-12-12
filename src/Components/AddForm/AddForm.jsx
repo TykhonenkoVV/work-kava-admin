@@ -23,7 +23,7 @@ import { StyledButton } from 'styles/components.styled';
 import { AskModal } from 'Components/Global/AskModal/AskModal';
 
 export const AddForm = () => {
-  const { local } = useSelector(selectUser);
+  const { locale } = useSelector(selectUser);
 
   const navigate = useNavigate();
 
@@ -35,7 +35,7 @@ export const AddForm = () => {
   const location = useLocation();
   const props = useRef(location?.state?.props);
   const pathname = props?.current?.pathname;
-  const title = getTitle(pathname, local);
+  const title = getTitle(pathname, locale);
 
   const data = createData(pathname);
 
@@ -97,31 +97,31 @@ export const AddForm = () => {
   return (
     <>
       {isLoading && <Loader />}
-      <BackLink to={pathname}>{lang[local].baсk_to_produkt_list}</BackLink>
+      <BackLink to={pathname}>{lang[locale].baсk_to_produkt_list}</BackLink>
       <FormTitle>{title}</FormTitle>
-      <FormCaption>{lang[local].add_new_product}</FormCaption>
+      <FormCaption>{lang[locale].add_new_product}</FormCaption>
       <StyledForm ref={formRef} onSubmit={handleSubmit}>
         <FormBlock
           data={data.title}
-          title={lang[local].name_title}
+          title={lang[locale].name_title}
           onChange={onChange}
         />
         <FormBlock
           data={data.price}
-          title={lang[local].price_title}
+          title={lang[locale].price_title}
           onChange={onChange}
         />
         {data?.ingredients && (
           <FormBlock
             data={data.ingredients}
-            title={lang[local].ingredients_title}
+            title={lang[locale].ingredients_title}
             onChange={onChange}
           />
         )}
         {data?.weight && (
           <FormBlock
             data={data.weight}
-            title={lang[local].weight_title}
+            title={lang[locale].weight_title}
             onChange={onChange}
           />
         )}
@@ -130,7 +130,7 @@ export const AddForm = () => {
           {image?.img && <img src={image?.img} alt={'Raster'} />}
           {image?.webpImg && <img src={image?.webpImg} alt={'Webp'} />}
         </ImageWrapper>
-        <StyledButton type="submit">{lang[local].submit}</StyledButton>
+        <StyledButton type="submit">{lang[locale].submit}</StyledButton>
       </StyledForm>
       {isModalOpen.askAdd && !isLoading && (
         <Modal
@@ -143,8 +143,8 @@ export const AddForm = () => {
             onCloseModal={() => closeModal('askAdd')}
             data={pathname}
             names={{
-              cancel: lang[local].add_new_product,
-              action: lang[local].baсk_to_produkt_list
+              cancel: lang[locale].add_new_product,
+              action: lang[locale].baсk_to_produkt_list
             }}
           />
         </Modal>

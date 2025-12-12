@@ -19,6 +19,7 @@ import {
   ADD_PRODUCT_PATH,
   DELETE_OPERATION,
   EDIT_PRODUCT_PATH,
+  IMAGE_CLOUD_URL,
   LOCAL_DE,
   LOCAL_EN,
   PATCH_OPERATION
@@ -57,7 +58,7 @@ export const ProductList = ({ data, title, checkedRadio }) => {
 
   const windowWidth = useWindowWidth();
 
-  const { local } = useSelector(selectUser);
+  const { locale } = useSelector(selectUser);
 
   const { pathname } = useLocation();
 
@@ -70,10 +71,10 @@ export const ProductList = ({ data, title, checkedRadio }) => {
   const index = getMaxIndex(data) + 1;
 
   useEffect(() => {
-    setFilterCaption(lang[local].only_active_cards);
+    setFilterCaption(lang[locale].only_active_cards);
     dispatch(setStatusFilter('active'));
     setFilteredData(data.filter(el => el.archived === false));
-  }, [dispatch, data, local]);
+  }, [dispatch, data, locale]);
 
   const openAskModalArhive = data => {
     setMethod(PATCH_OPERATION);
@@ -99,15 +100,15 @@ export const ProductList = ({ data, title, checkedRadio }) => {
 
   const handleRadioChange = id => {
     if (id === 'active') {
-      setFilterCaption(lang[local].only_active_cards);
+      setFilterCaption(lang[locale].only_active_cards);
       setFilteredData(data.filter(el => el.archived === false));
     }
     if (id === 'archive') {
-      setFilterCaption(lang[local].only_archived_cards);
+      setFilterCaption(lang[locale].only_archived_cards);
       setFilteredData(data.filter(el => el.archived === true));
     }
     if (id === 'all') {
-      setFilterCaption(lang[local].all_cards);
+      setFilterCaption(lang[locale].all_cards);
       setFilteredData(data);
     }
   };
@@ -134,7 +135,7 @@ export const ProductList = ({ data, title, checkedRadio }) => {
         className={isModalOpen?.selectFilter ? null : 'visually-hidden'}
         onChange={handleRadioChange}
         onToggle={onTogle}
-        local={local}
+        local={locale}
         checkedRadio={checkedRadio}
         forwardedRef={filterSelectRef}
       />
@@ -147,16 +148,16 @@ export const ProductList = ({ data, title, checkedRadio }) => {
           h={windowWidth > 413 ? 16 : 12}
           icon={'add'}
         />
-        <span>{lang[local].add_new_product}</span>
+        <span>{lang[locale].add_new_product}</span>
       </AddCardButton>
       {filteredData?.length > 0 && (
         <StyledList>
           {filteredData?.map((el, i) => (
             <StyledLi key={el._id}>
               <CardTitle>
-                {local === LOCAL_EN
+                {locale === LOCAL_EN
                   ? el.title_en
-                  : local === LOCAL_DE
+                  : locale === LOCAL_DE
                   ? el.title_de
                   : el.title_ua}
               </CardTitle>
@@ -164,7 +165,11 @@ export const ProductList = ({ data, title, checkedRadio }) => {
                 color={colors[i]}
                 className={el.archived ? 'archived' : null}
               >
-                <StyledImage width={120} src={el.imgURL} alt={el.title_en} />
+                <StyledImage
+                  width={120}
+                  src={`${IMAGE_CLOUD_URL}w_240,c_fill/${el.imgURL}`}
+                  alt={el.title_en}
+                />
               </ImgWrapper>
               <CardButtonContainer>
                 <CardLink
@@ -201,10 +206,10 @@ export const ProductList = ({ data, title, checkedRadio }) => {
             onCloseModal={() => closeModal('askArchive')}
             data={cardData}
             names={{
-              cancel: lang[local].cancel,
+              cancel: lang[locale].cancel,
               action: cardData.archived
-                ? lang[local].restore
-                : lang[local].archive
+                ? lang[locale].restore
+                : lang[locale].archive
             }}
           />
         </Modal>
@@ -216,8 +221,8 @@ export const ProductList = ({ data, title, checkedRadio }) => {
             onCloseModal={() => closeModal('askDelete')}
             data={cardData}
             names={{
-              cancel: lang[local].cancel,
-              action: lang[local].delete
+              cancel: lang[locale].cancel,
+              action: lang[locale].delete
             }}
           />
         </Modal>

@@ -17,9 +17,9 @@ const Home = () => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
-  const { local } = useSelector(selectUser);
+  const { locale } = useSelector(selectUser);
 
-  const title = getTitle(pathname, local);
+  const title = getTitle(pathname, locale);
 
   const { collection, operation } = useProductState(pathname, GET_OPERATION);
 

@@ -15,7 +15,12 @@ import { Loader } from 'Components/Global/Loader/Loader';
 import { useProductState } from 'hooks/useProductState';
 import { lang } from 'lang/lang';
 import { selectUser } from 'store/auth/selectors';
-import { LOCAL_DE, LOCAL_EN, PATCH_OPERATION } from 'utils/GlobalUtils';
+import {
+  IMAGE_CLOUD_URL,
+  LOCAL_DE,
+  LOCAL_EN,
+  PATCH_OPERATION
+} from 'utils/GlobalUtils';
 import { Modal } from 'Components/Global/Modal/Modal';
 import { useModal } from 'hooks/useModal';
 import { StyledButton } from 'styles/components.styled';
@@ -28,7 +33,7 @@ export const EditForm = () => {
   const [product, setProduct] = useState();
   const [isChanged, setIsChanged] = useState(false);
   const { id } = useParams();
-  const { local } = useSelector(selectUser);
+  const { locale } = useSelector(selectUser);
   const formRef = useRef(null);
   const { isModalOpen, openModal, closeModal } = useModal();
   const location = useLocation();
@@ -55,8 +60,8 @@ export const EditForm = () => {
       const i = collection.findIndex(product => product._id === id);
       setProduct(collection[i]);
       setImage({
-        img: collection[i].imgURL,
-        webpImg: collection[i].webpImgURL
+        img: `${IMAGE_CLOUD_URL}/${collection[i].imgURL}`,
+        webpImg: `${IMAGE_CLOUD_URL}/${collection[i].webpImgURL}`
       });
     }
   }, [id, collection]);
@@ -117,26 +122,26 @@ export const EditForm = () => {
   return (
     <>
       {isLoading && <Loader />}
-      <BackLink to={pathname}>{lang[local].baсk_to_produkt_list}</BackLink>
+      <BackLink to={pathname}>{lang[locale].baсk_to_produkt_list}</BackLink>
       <FormTitle>
-        {local === LOCAL_EN
+        {locale === LOCAL_EN
           ? product?.title_en
-          : local === LOCAL_DE
+          : locale === LOCAL_DE
           ? product?.title_de
           : product?.title_ua}
       </FormTitle>
-      <FormCaption>{lang[local].edit_product}</FormCaption>
+      <FormCaption>{lang[locale].edit_product}</FormCaption>
       <StyledForm ref={formRef} onSubmit={handleSubmit}>
         <FormBlock
           data={data.title}
-          title={lang[local].name_title}
+          title={lang[locale].name_title}
           onChange={onChange}
           product={product}
           type="text"
         />
         <FormBlock
           data={data.price}
-          title={lang[local].price_title}
+          title={lang[locale].price_title}
           onChange={onChange}
           product={product}
           type="number"
@@ -144,7 +149,7 @@ export const EditForm = () => {
         {data?.ingredients && (
           <FormBlock
             data={data.ingredients}
-            title={lang[local].ingredients_title}
+            title={lang[locale].ingredients_title}
             onChange={onChange}
             product={product}
             type="text"
@@ -153,7 +158,7 @@ export const EditForm = () => {
         {data?.weight && (
           <FormBlock
             data={data.weight}
-            title={lang[local].weight_title}
+            title={lang[locale].weight_title}
             onChange={onChange}
             product={product}
             type="number"
@@ -164,7 +169,7 @@ export const EditForm = () => {
           {image?.img && <img src={image?.img} alt={'Raster'} />}
           {image?.webpImg && <img src={image?.webpImg} alt={'Webp'} />}
         </ImageWrapper>
-        <StyledButton type="submit">{lang[local].submit}</StyledButton>
+        <StyledButton type="submit">{lang[locale].submit}</StyledButton>
       </StyledForm>
       {isModalOpen.askEdit && (
         <Modal onClose={() => closeModal('askEdit')}>
@@ -173,15 +178,15 @@ export const EditForm = () => {
             data={pathname}
             onCloseModal={() => closeModal('askEdit')}
             names={{
-              cancel: lang[local].cancel,
-              action: lang[local].submit
+              cancel: lang[locale].cancel,
+              action: lang[locale].submit
             }}
           />
         </Modal>
       )}
       {isModalOpen.infoModal && !isLoading && (
         <Modal onClose={handleCloseModal}>
-          <InfoModal data={pathname} text={lang[local].success_update} />
+          <InfoModal data={pathname} text={lang[locale].success_update} />
         </Modal>
       )}
     </>

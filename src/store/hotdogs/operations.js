@@ -5,7 +5,7 @@ export const getHotDogs = createAsyncThunk(
   'hotdogs/get',
   async (_, thunkAPI) => {
     try {
-      const { data } = await workKavaInnstance.get('/hotdogs');
+      const { data } = await workKavaInnstance.get('/hot-dogs/all');
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -17,7 +17,7 @@ export const addHotDog = createAsyncThunk(
   'hotdogs/create',
   async (credentials, thunkAPI) => {
     try {
-      const { data } = await workKavaInnstance.post('/hotdogs', credentials);
+      const { data } = await workKavaInnstance.post('/hot-dogs', credentials);
 
       const id = data.hot_dog._id;
 
@@ -30,7 +30,7 @@ export const addHotDog = createAsyncThunk(
         formData.append(el, imageData[el]);
       });
       const { data: images } = await workKavaInnstance.post(
-        '/hotdogs/images',
+        '/hot-dogs/images',
         formData
       );
 
@@ -47,7 +47,7 @@ export const updateHotDog = createAsyncThunk(
     const credentials = hotDogData.data;
     try {
       const { data } = await workKavaInnstance.patch(
-        `/hotdogs/${hotDogData.id}`,
+        `/hot-dogs/${hotDogData.id}`,
         credentials
       );
 
@@ -67,7 +67,7 @@ export const updateHotDog = createAsyncThunk(
           if (imageData[el]) formData.append(el, imageData[el]);
         });
         const { data: images } = await workKavaInnstance.post(
-          '/hotdogs/images',
+          '/hot-dogs/images',
           formData
         );
 
@@ -86,7 +86,7 @@ export const deleteHotDog = createAsyncThunk(
   'hotdogs/deleteHotDog',
   async (id, thunkAPI) => {
     try {
-      const { data } = await workKavaInnstance.delete(`/hotdogs/${id}`);
+      const { data } = await workKavaInnstance.delete(`/hot-dogs/${id}`);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue({

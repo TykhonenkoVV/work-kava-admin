@@ -9,12 +9,12 @@ import { selectUser } from 'store/auth/selectors';
 import { lang } from 'lang/lang';
 
 export const FormBlockFile = ({ onChange }) => {
-  const { local } = useSelector(selectUser);
+  const { locale } = useSelector(selectUser);
   const data = ['img', 'webpImg'];
   const title = ['Jpg/Png', 'Webp'];
   return (
     <div>
-      <BlockTitle>{lang[local].images_title}</BlockTitle>
+      <BlockTitle>{lang[locale].images_title}</BlockTitle>
       {data.map((el, i) => (
         <StyledLabel key={el}>
           <Caption>{title[i]}</Caption>
@@ -30,7 +30,7 @@ export const FormBlockFile = ({ onChange }) => {
             type="button"
             onClick={() => document.getElementById(`${el}`).click()}
           >
-            {lang[local].select_file}
+            {lang[locale].select_file}
           </StyledButton>
         </StyledLabel>
       ))}

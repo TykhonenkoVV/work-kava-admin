@@ -5,7 +5,7 @@ export const getDesserts = createAsyncThunk(
   'desserts/get',
   async (_, thunkAPI) => {
     try {
-      const { data } = await workKavaInnstance.get('/desserts');
+      const { data } = await workKavaInnstance.get('/desserts/all');
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

@@ -29,7 +29,7 @@ export const getCoffeeClassics = createAsyncThunk(
   'coffeeclassics/get',
   async (_, thunkAPI) => {
     try {
-      const { data } = await workKavaInnstance.get('/coffeeclassics');
+      const { data } = await workKavaInnstance.get('/coffee-classic/all');
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -42,7 +42,7 @@ export const addCoffeeClassic = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       const { data } = await workKavaInnstance.post(
-        '/coffeeclassics',
+        '/coffee-classic',
         credentials
       );
 
@@ -57,7 +57,7 @@ export const addCoffeeClassic = createAsyncThunk(
         formData.append(el, imageData[el]);
       });
       const { data: images } = await workKavaInnstance.post(
-        '/coffeeclassics/images',
+        '/coffee-classic/images',
         formData
       );
 
@@ -74,7 +74,7 @@ export const updateCoffeeClassic = createAsyncThunk(
     const credentials = coffeeClassicData.data;
     try {
       const { data } = await workKavaInnstance.patch(
-        `/coffeeclassics/${coffeeClassicData.id}`,
+        `/coffee-classic/${coffeeClassicData.id}`,
         credentials
       );
 
@@ -94,7 +94,7 @@ export const updateCoffeeClassic = createAsyncThunk(
           if (imageData[el]) formData.append(el, imageData[el]);
         });
         const { data: images } = await workKavaInnstance.post(
-          '/coffeeclassics/images',
+          '/coffee-classic/images',
           formData
         );
 
@@ -113,7 +113,7 @@ export const deleteCoffeeClassic = createAsyncThunk(
   'coffeeclassics/deleteCoffeeClassic',
   async (id, thunkAPI) => {
     try {
-      const { data } = await workKavaInnstance.delete(`/coffeeclassics/${id}`);
+      const { data } = await workKavaInnstance.delete(`/coffee-classic/${id}`);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue({

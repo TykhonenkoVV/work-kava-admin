@@ -6,10 +6,11 @@ import { useSelector } from 'react-redux';
 import { selectUser } from 'store/auth/selectors';
 
 export const SideBar = () => {
-  const { local } = useSelector(selectUser);
+  const { locale } = useSelector(selectUser);
+
   return (
     <StyledSideBar>
-      <CardTitle>{lang[local].category}</CardTitle>
+      <CardTitle>{lang[locale].category}</CardTitle>
       <Navigation />
     </StyledSideBar>
   );

@@ -5,7 +5,7 @@ export const getCoffeeWithMilks = createAsyncThunk(
   'coffeewithmilks/get',
   async (_, thunkAPI) => {
     try {
-      const { data } = await workKavaInnstance.get('/coffeewithmilks');
+      const { data } = await workKavaInnstance.get('/coffee-with-milk/all');
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -18,7 +18,7 @@ export const addCoffeeWithMilk = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       const { data } = await workKavaInnstance.post(
-        '/coffeewithmilks',
+        '/coffee-with-milk',
         credentials
       );
 
@@ -33,7 +33,7 @@ export const addCoffeeWithMilk = createAsyncThunk(
         formData.append(el, imageData[el]);
       });
       const { data: images } = await workKavaInnstance.post(
-        '/coffeewithmilks/images',
+        '/coffee-with-milk/images',
         formData
       );
 
@@ -50,7 +50,7 @@ export const updateCoffeeWithMilk = createAsyncThunk(
     const credentials = coffeeWithMilkData.data;
     try {
       const { data } = await workKavaInnstance.patch(
-        `/coffeewithmilks/${coffeeWithMilkData.id}`,
+        `/coffee-with-milk/${coffeeWithMilkData.id}`,
         credentials
       );
 
@@ -70,7 +70,7 @@ export const updateCoffeeWithMilk = createAsyncThunk(
           if (imageData[el]) formData.append(el, imageData[el]);
         });
         const { data: images } = await workKavaInnstance.post(
-          '/coffeewithmilks/images',
+          '/coffee-with-milk/images',
           formData
         );
 
@@ -89,7 +89,9 @@ export const deleteCoffeeWithMilk = createAsyncThunk(
   'coffeewithmilks/deleteCoffeeWithMilk',
   async (id, thunkAPI) => {
     try {
-      const { data } = await workKavaInnstance.delete(`/coffeewithmilks/${id}`);
+      const { data } = await workKavaInnstance.delete(
+        `/coffee-with-milk/${id}`
+      );
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue({

@@ -23,7 +23,7 @@ export const Navigation = ({ action }) => {
     { pathName: HOT_DOGS_PATH }
   ];
 
-  const { local } = useSelector(selectUser);
+  const { locale } = useSelector(selectUser);
 
   return (
     <nav>
@@ -34,7 +34,7 @@ export const Navigation = ({ action }) => {
             className={pathname === el.pathName ? 'active' : null}
           >
             <LinkItem to={el.pathName} onClick={action}>
-              {() => getTitle(el.pathName, local)}
+              {() => getTitle(el.pathName, locale)}
             </LinkItem>
           </Item>
         ))}

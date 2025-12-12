@@ -18,7 +18,7 @@ const initialState = {
     email: '',
     avatarURL: '',
     theme: darkThemeMq.matches ? 'dark' : 'light',
-    local: LOCAL_EN
+    locale: LOCAL_EN
   },
   accessToken: null,
   refreshToken: null,
