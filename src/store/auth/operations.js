@@ -3,19 +3,19 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { store } from 'store/store';
 import { BASE_URL } from 'utils/GlobalUtils';
 
-export const workKavaInnstance = axios.create({
+export const workKavaAdminInnstance = axios.create({
   baseURL: `${BASE_URL}/api`
 });
 
 const setAuthHeader = token => {
-  workKavaInnstance.defaults.headers.common.Authorization = `Bearer ${token}`;
+  workKavaAdminInnstance.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
 const clearAuthHeader = () => {
-  workKavaInnstance.defaults.headers.common.Authorization = '';
+  workKavaAdminInnstance.defaults.headers.common.Authorization = '';
 };
 
-workKavaInnstance.interceptors.response.use(
+workKavaAdminInnstance.interceptors.response.use(
   responce => responce,
   async error => {
     if (error.response.status === 401 && !error.config._retry) {
@@ -25,7 +25,7 @@ workKavaInnstance.interceptors.response.use(
         const newToken = store.getState().auth.accessToken;
         error.config.headers.Authorization = `Bearer ${newToken}`;
         setAuthHeader(newToken);
-        return workKavaInnstance(error.config);
+        return workKavaAdminInnstance(error.config);
       } catch (error) {
         return Promise.reject(error);
       }
@@ -38,7 +38,7 @@ workKavaInnstance.interceptors.response.use(
 //   'auth/register',
 //   async (credentials, thunkAPI) => {
 //     try {
-//       await workKavaInnstance.post('/auth/register', credentials);
+//       await workKavaAdminInnstance.post('/auth/register', credentials);
 //     } catch (error) {
 //       return thunkAPI.rejectWithValue({
 //         message: error.response.data.message,
@@ -52,7 +52,7 @@ export const logIn = createAsyncThunk(
   'auth/logIn',
   async (credentials, thunkAPI) => {
     try {
-      const { data } = await workKavaInnstance.post(
+      const { data } = await workKavaAdminInnstance.post(
         '/auth/signin',
         credentials
       );
@@ -66,18 +66,6 @@ export const logIn = createAsyncThunk(
     }
   }
 );
-
-export const logOut = createAsyncThunk('auth/logOut', async (_, thunkAPI) => {
-  try {
-    await workKavaInnstance.post('/auth/logout');
-    clearAuthHeader();
-  } catch (error) {
-    return thunkAPI.rejectWithValue({
-      message: error.response.data.message,
-      status: error.response.status
-    });
-  }
-});
 
 export const refreshUser = createAsyncThunk(
   'auth/refresh',
@@ -94,7 +82,7 @@ export const refreshUser = createAsyncThunk(
 
     try {
       setAuthHeader(persistedToken);
-      const { data } = await workKavaInnstance.get('/auth/current');
+      const { data } = await workKavaAdminInnstance.get('/auth/current');
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue({
@@ -117,22 +105,7 @@ export const refreshToken = createAsyncThunk(
 
     setAuthHeader(persistToken);
     try {
-      const { data } = await workKavaInnstance.post('/auth/refresh');
-      return data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue({
-        message: error.response.data.message,
-        status: error.response.status
-      });
-    }
-  }
-);
-
-export const updateUser = createAsyncThunk(
-  'auth/updateUser',
-  async (userData, thunkAPI) => {
-    try {
-      const { data } = await workKavaInnstance.patch('/users', userData);
+      const { data } = await workKavaAdminInnstance.post('/auth/refresh');
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue({
@@ -149,7 +122,10 @@ export const updateAvatar = createAsyncThunk(
     try {
       const formData = new FormData();
       formData.append('avatarURL', avatarFile);
-      const { data } = await workKavaInnstance.patch('/auth/avatars', formData);
+      const { data } = await workKavaAdminInnstance.patch(
+        '/auth/avatars',
+        formData
+      );
       return data.avatarURL;
     } catch (error) {
       return thunkAPI.rejectWithValue({
@@ -159,3 +135,40 @@ export const updateAvatar = createAsyncThunk(
     }
   }
 );
+
+export const updateUser = createAsyncThunk(
+  'auth/updateUser',
+  async (userData, { dispatch, rejectWithValue }) => {
+    if (userData.avatar) {
+      try {
+        await dispatch(updateAvatar(userData.avatar)).unwrap();
+      } catch (error) {
+        return rejectWithValue({
+          message: error.response.data.message,
+          status: error.response.status
+        });
+      }
+    }
+    try {
+      const { data } = await workKavaAdminInnstance.patch('/users', userData);
+      return data;
+    } catch (error) {
+      return rejectWithValue({
+        message: error.response.data.message,
+        status: error.response.status
+      });
+    }
+  }
+);
+
+export const logOut = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
+  try {
+    await workKavaAdminInnstance.get('/auth/logout');
+    clearAuthHeader();
+  } catch (error) {
+    return thunkAPI.rejectWithValue({
+      message: error.response.data.message,
+      status: error.response.status
+    });
+  }
+});

@@ -40,7 +40,7 @@ const rollsSlice = createSlice({
       })
       .addCase(updateRoll.pending, (state, { payload }) => {
         state.isLoading = true;
-        state.error = payload;
+        state.error = null;
       })
       .addCase(updateRoll.fulfilled, (state, { payload }) => {
         const index = state.rolls.findIndex(
@@ -56,7 +56,7 @@ const rollsSlice = createSlice({
       })
       .addCase(deleteRoll.pending, (state, { payload }) => {
         state.isLoading = true;
-        state.error = payload;
+        state.error = null;
       })
       .addCase(deleteRoll.fulfilled, (state, { payload }) => {
         state.rolls = state.rolls.filter(

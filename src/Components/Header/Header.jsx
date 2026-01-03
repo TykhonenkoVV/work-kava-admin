@@ -30,7 +30,7 @@ export const Header = () => {
             {windowWidth < 720 && (
               <BurgerMenuButton
                 type="button"
-                onClick={() => openModal('mobileNav')}
+                onClick={openModal}
                 aria-label="menu"
               >
                 <SvgIcon
@@ -45,9 +45,7 @@ export const Header = () => {
           </SetButtonsWrapper>
         </ContainerStyled>
       </HeaderStyled>
-      {isModalOpen.mobileNav && (
-        <ModalNav action={() => closeModal('mobileNav')} />
-      )}
+      {isModalOpen && <ModalNav action={closeModal} />}
     </>
   );
 };

@@ -1,21 +1,23 @@
 import styled from '@emotion/styled';
 
-export const InfoModalWrapper = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 280px;
-  transform: translate(-50%, -50%);
-  padding: 20px;
-  background-color: ${({ theme }) => theme.colors.primaryBackground};
-  border: 1px solid white;
-  border-radius: 10px;
-`;
-
 export const InfoModalTitle = styled.h1`
   font-size: 18px;
   margin-bottom: 16px;
   text-align: center;
 `;
 
-export const InfoModalCaption = styled.p``;
+export const StyledButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 32px;
+  border: 1px solid ${({ theme }) => theme.colors.primaryText};
+  border-radius: 4px;
+  background-color: ${({ theme }) => theme.colors.buttonsBackground};
+`;
+
+export const InfoModalCaption = styled.p`
+  margin-block-end: 16px;
+  text-align: center;
+`;

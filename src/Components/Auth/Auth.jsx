@@ -20,7 +20,7 @@ import { selectUser } from 'store/auth/selectors';
 export const Auth = () => {
   const dispatch = useDispatch();
   const [showPass, setShowPass] = useState({ showPass: false });
-  const { local } = useSelector(selectUser);
+  const { locale } = useSelector(selectUser);
 
   const onSubmit = e => {
     e.preventDefault();
@@ -43,16 +43,16 @@ export const Auth = () => {
       <AuthFormWrapper>
         <AuthLogo>
           <SvgIcon w={190} h={41} icon={'logo'} />
-          <Subtitle>{lang[local].site_title}</Subtitle>
+          <Subtitle>{lang[locale].site_title}</Subtitle>
         </AuthLogo>
-        <AuthCaption>{lang[local].login}</AuthCaption>
+        <AuthCaption>{lang[locale].login}</AuthCaption>
         <AuthForm onSubmit={onSubmit} autoComplete="false">
           <AuthLabel>
-            {lang[local].e_mail}
+            {lang[locale].e_mail}
             <AuthInput name="email" type="text" />
           </AuthLabel>
           <AuthLabel>
-            {lang[local].password}
+            {lang[locale].password}
             <AuthInput name="password" type={showPass ? 'password' : 'text'} />
             <ButtonShowPassword onClick={hendleShowPass} type="button">
               <SvgIcon
@@ -62,7 +62,7 @@ export const Auth = () => {
               />
             </ButtonShowPassword>
           </AuthLabel>
-          <SubmitButton type="submit">{lang[local].submit}</SubmitButton>
+          <SubmitButton type="submit">{lang[locale].submit}</SubmitButton>
         </AuthForm>
       </AuthFormWrapper>
     </StyledSectoion>

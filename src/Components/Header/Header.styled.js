@@ -16,7 +16,7 @@ export const ContainerStyled = styled(Container)`
 
 export const SetButtonsWrapper = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 16px;
   align-items: center;
 `;
 export const BurgerMenuButton = styled.button`

@@ -4,6 +4,7 @@ import {
   COFFE_CLASSIC_PATH,
   COFFE_WITH_MILK_PATH,
   DESSERTS_PATH,
+  HOT_DOGS_PATH,
   ROLLS_PATH
 } from 'utils/GlobalUtils';
 
@@ -19,6 +20,8 @@ export const getTitle = (path, locale) => {
       ? lang[locale].burgers_title
       : path === ROLLS_PATH
       ? lang[locale].rolls_title
-      : lang[locale].hot_dogs_title;
+      : path === HOT_DOGS_PATH
+      ? lang[locale].hot_dogs_title
+      : lang[locale].rooms_title;
   return title;
 };

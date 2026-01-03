@@ -45,7 +45,7 @@ const hotDogsSlice = createSlice({
       })
       .addCase(updateHotDog.pending, (state, { payload }) => {
         state.isLoading = true;
-        state.error = payload;
+        state.error = null;
       })
       .addCase(updateHotDog.fulfilled, (state, { payload }) => {
         const index = state.hotDogs.findIndex(
@@ -61,7 +61,7 @@ const hotDogsSlice = createSlice({
       })
       .addCase(deleteHotDog.pending, (state, { payload }) => {
         state.isLoading = true;
-        state.error = payload;
+        state.error = null;
       })
       .addCase(deleteHotDog.fulfilled, (state, { payload }) => {
         state.hotDogs = state.hotDogs.filter(

@@ -2,15 +2,45 @@ import { StyledLink } from 'styles/components.styled';
 import {
   InfoModalCaption,
   InfoModalTitle,
-  InfoModalWrapper
+  StyledButton
 } from './InfoModal.styled';
+import { SvgIcon } from '../SvgIcon/SvgIcon';
 
-export const InfoModal = ({ data, text }) => {
+export const InfoModal = ({ type, data, onClose, text }) => {
   return (
-    <InfoModalWrapper>
+    <>
+      {type === 'rejected' && (
+        <SvgIcon
+          w={40}
+          h={40}
+          icon={'error'}
+          addedStyle={{ fill: '#ff0000', marginBlockEnd: '16px' }}
+        />
+      )}
+      {type === 'fulfilled' && (
+        <SvgIcon
+          w={40}
+          h={40}
+          icon={'success'}
+          addedStyle={{ fill: '#00a500', marginBlockEnd: '16px' }}
+        />
+      )}
+      {type === 'warning' && (
+        <SvgIcon
+          w={40}
+          h={40}
+          icon={'warning'}
+          addedStyle={{ fill: '#fcbd10', marginBlockEnd: '16px' }}
+        />
+      )}
       <InfoModalTitle>Info</InfoModalTitle>
       <InfoModalCaption>{text}</InfoModalCaption>
-      <StyledLink to={data}>Ok</StyledLink>
-    </InfoModalWrapper>
+      {data && <StyledLink to={data}>Ok</StyledLink>}
+      {!data && (
+        <StyledButton type="button" onClick={onClose}>
+          Ok
+        </StyledButton>
+      )}
+    </>
   );
 };

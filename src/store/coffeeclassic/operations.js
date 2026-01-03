@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { workKavaInnstance } from 'store/auth/operations';
+import { workKavaAdminInnstance } from 'store/auth/operations';
 
 // export const addCoffeeClassicImages = createAsyncThunk(
 //   'coffeeclassics/addimages',
@@ -11,7 +11,7 @@ import { workKavaInnstance } from 'store/auth/operations';
 //         formData.append(el, imageFiles[el]);
 //       });
 
-//       const { images: data } = await workKavaInnstance.post(
+//       const { images: data } = await workKavaAdminInnstance.post(
 //         '/coffeeclassics/images',
 //         formData
 //       );
@@ -29,7 +29,7 @@ export const getCoffeeClassics = createAsyncThunk(
   'coffeeclassics/get',
   async (_, thunkAPI) => {
     try {
-      const { data } = await workKavaInnstance.get('/coffee-classic/all');
+      const { data } = await workKavaAdminInnstance.get('/coffee-classic/all');
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -41,7 +41,7 @@ export const addCoffeeClassic = createAsyncThunk(
   'coffeeclassic/create',
   async (credentials, thunkAPI) => {
     try {
-      const { data } = await workKavaInnstance.post(
+      const { data } = await workKavaAdminInnstance.post(
         '/coffee-classic',
         credentials
       );
@@ -56,7 +56,7 @@ export const addCoffeeClassic = createAsyncThunk(
       keys.forEach(el => {
         formData.append(el, imageData[el]);
       });
-      const { data: images } = await workKavaInnstance.post(
+      const { data: images } = await workKavaAdminInnstance.post(
         '/coffee-classic/images',
         formData
       );
@@ -73,7 +73,7 @@ export const updateCoffeeClassic = createAsyncThunk(
   async (coffeeClassicData, thunkAPI) => {
     const credentials = coffeeClassicData.data;
     try {
-      const { data } = await workKavaInnstance.patch(
+      const { data } = await workKavaAdminInnstance.patch(
         `/coffee-classic/${coffeeClassicData.id}`,
         credentials
       );
@@ -93,7 +93,7 @@ export const updateCoffeeClassic = createAsyncThunk(
         keys.forEach(el => {
           if (imageData[el]) formData.append(el, imageData[el]);
         });
-        const { data: images } = await workKavaInnstance.post(
+        const { data: images } = await workKavaAdminInnstance.post(
           '/coffee-classic/images',
           formData
         );
@@ -113,7 +113,9 @@ export const deleteCoffeeClassic = createAsyncThunk(
   'coffeeclassics/deleteCoffeeClassic',
   async (id, thunkAPI) => {
     try {
-      const { data } = await workKavaInnstance.delete(`/coffee-classic/${id}`);
+      const { data } = await workKavaAdminInnstance.delete(
+        `/coffee-classic/${id}`
+      );
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue({

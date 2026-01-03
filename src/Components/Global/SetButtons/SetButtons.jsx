@@ -16,22 +16,33 @@ import { useClickOutsideModal } from 'hooks/useClickOutsideModal';
 import { useRef } from 'react';
 import { Loader } from '../Loader/Loader';
 import { SvgIcon } from '../SvgIcon/SvgIcon';
+import { Modal } from '../Modal/Modal';
+import { Profile } from 'Components/Header/Components/Profile/Profile';
 
 export const SetButtons = () => {
-  const { local } = useSelector(selectUser);
+  const { locale } = useSelector(selectUser);
   const { isLoading, operation } = useProductState(null, PATCH_OPERATION);
   const dispatch = useDispatch();
 
   const langMenuRef = useRef(null);
   const langButtonRef = useRef(null);
 
-  const { isModalOpen, closeModal, toggleModal } = useModal();
+  const {
+    isModalOpen: isLangMenuOpen,
+    closeModal: closeLangMenu,
+    toggleModal: toggleLangMenu
+  } = useModal();
+  const {
+    isModalOpen: isProfileModalOpen,
+    closeModal: closeProfileModal,
+    openModal: openProfileModal
+  } = useModal();
 
-  useClickOutsideModal([langMenuRef, langButtonRef], closeModal, 'langMenu');
+  useClickOutsideModal([langMenuRef, langButtonRef], closeLangMenu, 'langMenu');
 
   const handleLangClick = e => {
-    closeModal('langMenu');
-    dispatch(operation({ local: e.currentTarget.id }));
+    closeLangMenu();
+    dispatch(operation({ locale: e.currentTarget.id }));
   };
 
   return (
@@ -39,32 +50,33 @@ export const SetButtons = () => {
       {isLoading && <Loader />}
       <SetButtonWrapper>
         <LangMenu
-          isModalOpen={isModalOpen.langMenu}
+          isModalOpen={isLangMenuOpen}
           forwardedRef={langMenuRef}
           handleCklick={handleLangClick}
         />
-        <LangBtn
-          type="button"
-          onClick={() => toggleModal('langMenu')}
-          ref={langButtonRef}
-        >
+        <LangBtn type="button" onClick={toggleLangMenu} ref={langButtonRef}>
           <img
             width={40}
             height={40}
             src={
-              local === LOCAL_EN
+              locale === LOCAL_EN
                 ? FLAG_UK_URL
-                : local === LOCAL_DE
+                : locale === LOCAL_DE
                 ? FLAG_DE_URL
                 : FLAG_UA_URL
             }
             alt="flag"
           />
         </LangBtn>
-        <UserBtn type="button">
+        <UserBtn type="button" onClick={openProfileModal}>
           <SvgIcon w={36} h={36} icon={'avatar'} aria-label="icon user" />
         </UserBtn>
       </SetButtonWrapper>
+      {isProfileModalOpen && (
+        <Modal onClose={closeProfileModal}>
+          <Profile action={closeProfileModal} />
+        </Modal>
+      )}
     </>
   );
 };

@@ -45,7 +45,7 @@ const coffeeWithMilkSlice = createSlice({
       })
       .addCase(updateCoffeeWithMilk.pending, (state, { payload }) => {
         state.isLoading = true;
-        state.error = payload;
+        state.error = null;
       })
       .addCase(updateCoffeeWithMilk.fulfilled, (state, { payload }) => {
         const index = state.coffeeWithMilks.findIndex(
@@ -61,7 +61,7 @@ const coffeeWithMilkSlice = createSlice({
       })
       .addCase(deleteCoffeeWithMilk.pending, (state, { payload }) => {
         state.isLoading = true;
-        state.error = payload;
+        state.error = null;
       })
       .addCase(deleteCoffeeWithMilk.fulfilled, (state, { payload }) => {
         state.coffeeWithMilks = state.coffeeWithMilks.filter(

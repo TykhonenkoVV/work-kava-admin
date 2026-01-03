@@ -4,7 +4,8 @@ import {
   COFFE_WITH_MILK_PATH,
   DESSERTS_PATH,
   HOT_DOGS_PATH,
-  ROLLS_PATH
+  ROLLS_PATH,
+  ROOMS_PATH
 } from 'utils/GlobalUtils';
 import { Item, LinkItem, List } from './Navigation.styled';
 import { useSelector } from 'react-redux';
@@ -20,7 +21,8 @@ export const Navigation = ({ action }) => {
     { pathName: DESSERTS_PATH },
     { pathName: BURGERS_PATH },
     { pathName: ROLLS_PATH },
-    { pathName: HOT_DOGS_PATH }
+    { pathName: HOT_DOGS_PATH },
+    { pathName: ROOMS_PATH }
   ];
 
   const { locale } = useSelector(selectUser);

@@ -1,11 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { workKavaInnstance } from 'store/auth/operations';
+import { workKavaAdminInnstance } from 'store/auth/operations';
 
 export const getCoffeeWithMilks = createAsyncThunk(
   'coffeewithmilks/get',
   async (_, thunkAPI) => {
     try {
-      const { data } = await workKavaInnstance.get('/coffee-with-milk/all');
+      const { data } = await workKavaAdminInnstance.get(
+        '/coffee-with-milk/all'
+      );
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -17,7 +19,7 @@ export const addCoffeeWithMilk = createAsyncThunk(
   'coffeewithmilks/create',
   async (credentials, thunkAPI) => {
     try {
-      const { data } = await workKavaInnstance.post(
+      const { data } = await workKavaAdminInnstance.post(
         '/coffee-with-milk',
         credentials
       );
@@ -32,7 +34,7 @@ export const addCoffeeWithMilk = createAsyncThunk(
       keys.forEach(el => {
         formData.append(el, imageData[el]);
       });
-      const { data: images } = await workKavaInnstance.post(
+      const { data: images } = await workKavaAdminInnstance.post(
         '/coffee-with-milk/images',
         formData
       );
@@ -49,7 +51,7 @@ export const updateCoffeeWithMilk = createAsyncThunk(
   async (coffeeWithMilkData, thunkAPI) => {
     const credentials = coffeeWithMilkData.data;
     try {
-      const { data } = await workKavaInnstance.patch(
+      const { data } = await workKavaAdminInnstance.patch(
         `/coffee-with-milk/${coffeeWithMilkData.id}`,
         credentials
       );
@@ -69,7 +71,7 @@ export const updateCoffeeWithMilk = createAsyncThunk(
         keys.forEach(el => {
           if (imageData[el]) formData.append(el, imageData[el]);
         });
-        const { data: images } = await workKavaInnstance.post(
+        const { data: images } = await workKavaAdminInnstance.post(
           '/coffee-with-milk/images',
           formData
         );
@@ -89,7 +91,7 @@ export const deleteCoffeeWithMilk = createAsyncThunk(
   'coffeewithmilks/deleteCoffeeWithMilk',
   async (id, thunkAPI) => {
     try {
-      const { data } = await workKavaInnstance.delete(
+      const { data } = await workKavaAdminInnstance.delete(
         `/coffee-with-milk/${id}`
       );
       return data;

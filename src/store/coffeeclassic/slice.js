@@ -8,7 +8,6 @@ import {
 
 const initialState = {
   coffeeClassics: [],
-  image: null,
   isLoading: false,
   error: null
 };
@@ -46,7 +45,7 @@ const coffeeClassicSlice = createSlice({
       })
       .addCase(updateCoffeeClassic.pending, (state, { payload }) => {
         state.isLoading = true;
-        state.error = payload;
+        state.error = null;
       })
       .addCase(updateCoffeeClassic.fulfilled, (state, { payload }) => {
         const index = state.coffeeClassics.findIndex(
@@ -62,7 +61,7 @@ const coffeeClassicSlice = createSlice({
       })
       .addCase(deleteCoffeeClassic.pending, (state, { payload }) => {
         state.isLoading = true;
-        state.error = payload;
+        state.error = null;
       })
       .addCase(deleteCoffeeClassic.fulfilled, (state, { payload }) => {
         state.coffeeClassics = state.coffeeClassics.filter(

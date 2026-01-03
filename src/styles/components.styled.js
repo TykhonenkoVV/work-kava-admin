@@ -24,7 +24,7 @@ export const Container = styled.div`
 
 export const BlockTitle = styled.h2`
   font-size: 18px;
-  margin-bottom: 10px;
+  margin-block-end: 10px;
 `;
 
 export const StyledLabel = styled.label`
@@ -71,7 +71,7 @@ export const ActionButton = styled.button`
   justify-content: center;
   width: 40px;
   height: 40px;
-  border: 2px solid ${({ theme }) => theme.colors.primaryText};
+  border: 2px solid currentColor;
   border-radius: 4px;
   background-color: ${({ theme }) => theme.colors.buttonsBackground};
 `;

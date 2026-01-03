@@ -1,11 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { workKavaInnstance } from 'store/auth/operations';
+import { workKavaAdminInnstance } from 'store/auth/operations';
 
 export const getHotDogs = createAsyncThunk(
   'hotdogs/get',
   async (_, thunkAPI) => {
     try {
-      const { data } = await workKavaInnstance.get('/hot-dogs/all');
+      const { data } = await workKavaAdminInnstance.get('/hot-dogs/all');
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -17,7 +17,10 @@ export const addHotDog = createAsyncThunk(
   'hotdogs/create',
   async (credentials, thunkAPI) => {
     try {
-      const { data } = await workKavaInnstance.post('/hot-dogs', credentials);
+      const { data } = await workKavaAdminInnstance.post(
+        '/hot-dogs',
+        credentials
+      );
 
       const id = data.hot_dog._id;
 
@@ -29,7 +32,7 @@ export const addHotDog = createAsyncThunk(
       keys.forEach(el => {
         formData.append(el, imageData[el]);
       });
-      const { data: images } = await workKavaInnstance.post(
+      const { data: images } = await workKavaAdminInnstance.post(
         '/hot-dogs/images',
         formData
       );
@@ -46,7 +49,7 @@ export const updateHotDog = createAsyncThunk(
   async (hotDogData, thunkAPI) => {
     const credentials = hotDogData.data;
     try {
-      const { data } = await workKavaInnstance.patch(
+      const { data } = await workKavaAdminInnstance.patch(
         `/hot-dogs/${hotDogData.id}`,
         credentials
       );
@@ -66,7 +69,7 @@ export const updateHotDog = createAsyncThunk(
         keys.forEach(el => {
           if (imageData[el]) formData.append(el, imageData[el]);
         });
-        const { data: images } = await workKavaInnstance.post(
+        const { data: images } = await workKavaAdminInnstance.post(
           '/hot-dogs/images',
           formData
         );
@@ -86,7 +89,7 @@ export const deleteHotDog = createAsyncThunk(
   'hotdogs/deleteHotDog',
   async (id, thunkAPI) => {
     try {
-      const { data } = await workKavaInnstance.delete(`/hot-dogs/${id}`);
+      const { data } = await workKavaAdminInnstance.delete(`/hot-dogs/${id}`);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue({

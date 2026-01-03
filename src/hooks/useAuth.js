@@ -4,13 +4,16 @@ import {
   selectIsLoggedIn,
   selectIsRefreshing,
   selectAuthError,
-  selectIsRegistered,
+  selectIsRegistered
 } from '../store/auth/selectors';
 
 export const useAuth = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const isRefreshing = useSelector(selectIsRefreshing);
   const user = useSelector(selectUser);
+  const { locale } = user;
+  const shortLocale =
+    locale === 'en-UK' ? 'en' : locale === 'de-DE' ? 'de' : 'ua';
   const authError = useSelector(selectAuthError);
   const isRegistered = useSelector(selectIsRegistered);
 
@@ -18,7 +21,9 @@ export const useAuth = () => {
     isLoggedIn,
     isRefreshing,
     user,
+    locale,
+    shortLocale,
     authError,
-    isRegistered,
+    isRegistered
   };
 };

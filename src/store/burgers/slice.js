@@ -45,7 +45,7 @@ const burgersSlice = createSlice({
       })
       .addCase(updateBurger.pending, (state, { payload }) => {
         state.isLoading = true;
-        state.error = payload;
+        state.error = null;
       })
       .addCase(updateBurger.fulfilled, (state, { payload }) => {
         const index = state.burgers.findIndex(
@@ -61,7 +61,7 @@ const burgersSlice = createSlice({
       })
       .addCase(deleteBurger.pending, (state, { payload }) => {
         state.isLoading = true;
-        state.error = payload;
+        state.error = null;
       })
       .addCase(deleteBurger.fulfilled, (state, { payload }) => {
         state.burgers = state.burgers.filter(

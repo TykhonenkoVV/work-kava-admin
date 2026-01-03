@@ -18,6 +18,7 @@ import { dessertsReducer } from './dessers/slice';
 import { rollsReducer } from './rolls/slice';
 import { hotDogsReducer } from './hotdogs/slice';
 import { filtersReducer } from './filter/slice';
+import { roomsReducer } from './rooms/slice';
 
 const authPersistConfig = {
   key: 'auth',
@@ -34,6 +35,7 @@ export const store = configureStore({
     burgers: burgersReducer,
     rolls: rollsReducer,
     hotDogs: hotDogsReducer,
+    rooms: roomsReducer,
     filter: filtersReducer
   },
   middleware: getDefaultMiddleware =>

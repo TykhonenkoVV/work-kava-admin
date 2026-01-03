@@ -1,17 +1,14 @@
 import { lang } from 'lang/lang';
-import {
-  AskModalButton,
-  AskModalTitle,
-  AskModalWrapper
-} from './AskModal.styled';
+import { AskModalButton, AskModalTitle } from './AskModal.styled';
 import { useSelector } from 'react-redux';
 import { selectUser } from 'store/auth/selectors';
 
 export const AskModal = ({ action, onCloseModal, data, names }) => {
-  const { local } = useSelector(selectUser);
+  const { locale } = useSelector(selectUser);
 
   const onAction = () => {
-    if (action) action();
+    if (action) action(data);
+    onCloseModal();
   };
 
   const onCencel = () => {
@@ -19,10 +16,10 @@ export const AskModal = ({ action, onCloseModal, data, names }) => {
   };
 
   return (
-    <AskModalWrapper>
-      <AskModalTitle>{lang[local].select_an_action}</AskModalTitle>
+    <>
+      <AskModalTitle>{lang[locale].select_an_action}</AskModalTitle>
       <AskModalButton onClick={onCencel}>{names.cancel}</AskModalButton>
       <AskModalButton onClick={onAction}>{names.action}</AskModalButton>
-    </AskModalWrapper>
+    </>
   );
 };

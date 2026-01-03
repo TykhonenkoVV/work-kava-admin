@@ -1,36 +1,25 @@
 import { useState, useEffect } from 'react';
 
 export const useModal = () => {
-  const [isModalOpen, setIsModalOpen] = useState({
-    infoModal: false,
-    selectFilter: false,
-    langMenu: false,
-    askAdd: false,
-    askEdit: false,
-    askArchive: false,
-    askDelete: false,
-    mobileNav: false
-  });
+  const [isModalOpen, setIsModalOpen] = useState();
 
   useEffect(() => {
-    const values = Object.values(isModalOpen);
-    const isOpen = values.some(val => val === true);
-    if (isOpen === true) {
+    if (isModalOpen) {
       document.body.style.overflow = 'hidden';
     }
-    if (isOpen === false) {
+    if (!isModalOpen) {
       document.body.style.overflow = 'visible';
     }
   }, [isModalOpen]);
 
-  const openModal = id => {
-    setIsModalOpen({ ...isModalOpen, [id]: true });
+  const openModal = () => {
+    setIsModalOpen(true);
   };
-  const closeModal = id => {
-    setIsModalOpen({ ...isModalOpen, [id]: false });
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
-  const toggleModal = id => {
-    setIsModalOpen({ ...isModalOpen, [id]: !isModalOpen[id] });
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
   };
 
   return {

@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { workKavaInnstance } from 'store/auth/operations';
+import { workKavaAdminInnstance } from 'store/auth/operations';
 
 export const getRolls = createAsyncThunk('rolls/get', async (_, thunkAPI) => {
   try {
-    const { data } = await workKavaInnstance.get('/rolls/all');
+    const { data } = await workKavaAdminInnstance.get('/rolls/all');
     return data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.message);
@@ -14,7 +14,7 @@ export const addRoll = createAsyncThunk(
   'rolls/create',
   async (credentials, thunkAPI) => {
     try {
-      const { data } = await workKavaInnstance.post('/rolls', credentials);
+      const { data } = await workKavaAdminInnstance.post('/rolls', credentials);
 
       const id = data.roll._id;
 
@@ -26,7 +26,7 @@ export const addRoll = createAsyncThunk(
       keys.forEach(el => {
         formData.append(el, imageData[el]);
       });
-      const { data: images } = await workKavaInnstance.post(
+      const { data: images } = await workKavaAdminInnstance.post(
         '/rolls/images',
         formData
       );
@@ -43,7 +43,7 @@ export const updateRoll = createAsyncThunk(
   async (rollData, thunkAPI) => {
     const credentials = rollData.data;
     try {
-      const { data } = await workKavaInnstance.patch(
+      const { data } = await workKavaAdminInnstance.patch(
         `/rolls/${rollData.id}`,
         credentials
       );
@@ -63,7 +63,7 @@ export const updateRoll = createAsyncThunk(
         keys.forEach(el => {
           if (imageData[el]) formData.append(el, imageData[el]);
         });
-        const { data: images } = await workKavaInnstance.post(
+        const { data: images } = await workKavaAdminInnstance.post(
           '/rolls/images',
           formData
         );
@@ -83,7 +83,7 @@ export const deleteRoll = createAsyncThunk(
   'rolls/deleteRoll',
   async (id, thunkAPI) => {
     try {
-      const { data } = await workKavaInnstance.delete(`/rolls/${id}`);
+      const { data } = await workKavaAdminInnstance.delete(`/rolls/${id}`);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue({

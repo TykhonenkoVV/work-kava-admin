@@ -37,12 +37,10 @@ export const AddCardButton = styled(Link)`
 `;
 
 export const StyledList = styled.ul`
-  @media screen and (${({ theme }) => theme.devices.mobile}) {
-    display: grid;
-    gap: 10px;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    justify-content: flex-start;
-  }
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  justify-content: flex-start;
 `;
 
 export const StyledLi = styled.li`

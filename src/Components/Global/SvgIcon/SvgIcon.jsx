@@ -1,16 +1,17 @@
 import sprite from '../../../images/sprite.svg';
+import { StyledSvg } from './SvgIcon.styled';
 
-export const SvgIcon = ({ w, h, icon, style, className }) => {
+export const SvgIcon = ({ w, h, icon, addedStyle, className }) => {
   return (
-    <svg
+    <StyledSvg
       width={w}
       height={h}
       aria-hidden="true"
       role="presentation"
-      style={style}
+      addedStyle={addedStyle}
       className={className}
     >
       <use href={`${sprite}#icon-${icon}`} />
-    </svg>
+    </StyledSvg>
   );
 };

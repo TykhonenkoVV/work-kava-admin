@@ -26,11 +26,16 @@ export const ModalContent = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 100%;
-  max-width: 366px;
-  background: ${({ theme }) => theme.colors.primaryBackround};
+  width: 366px;
+  text-align: center;
+  background-color: ${({ theme }) => theme.colors.primaryBackground};
   transform: translate(-50%, -50%);
+  border: 1px solid white;
   border-radius: 10px;
+  padding-block-start: 60px;
+  padding-block-end: 60px;
+  padding-inline-start: 28px;
+  padding-inline-end: 28px;
 
   animation: ${({ theme }) => theme.baseTransition} alternate modal-content;
 
@@ -44,6 +49,30 @@ export const ModalContent = styled.div`
   }
 
   @media screen and (${({ theme }) => theme.devices.tablet}) {
-    max-width: 500px;
+    width: 500px;
+    padding-inline-start: 54px;
+    padding-inline-end: 54px;
+  }
+`;
+
+export const CloseButton = styled.button`
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  fill: ${props => props.theme.colors.primary};
+  transition: fill ${props => props.theme.baseTransition};
+
+  @media screen and (${props => props.theme.devices.tablet}) {
+    right: 14px;
+    top: 14px;
+  }
+
+  &:hover,
+  &:focus {
+    fill: ${props => props.theme.colors.accent};
+  }
+  &:hover,
+  &:focus {
+    fill: ${props => props.theme.colors.accent};
   }
 `;

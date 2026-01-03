@@ -45,7 +45,7 @@ const dessertsSlice = createSlice({
       })
       .addCase(updateDessert.pending, (state, { payload }) => {
         state.isLoading = true;
-        state.error = payload;
+        state.error = null;
       })
       .addCase(updateDessert.fulfilled, (state, { payload }) => {
         const index = state.desserts.findIndex(
@@ -61,7 +61,7 @@ const dessertsSlice = createSlice({
       })
       .addCase(deleteDessert.pending, (state, { payload }) => {
         state.isLoading = true;
-        state.error = payload;
+        state.error = null;
       })
       .addCase(deleteDessert.fulfilled, (state, { payload }) => {
         state.desserts = state.desserts.filter(

@@ -1,5 +1,4 @@
-import { AddForm } from 'Components/AddForm/AddForm';
-import { EditForm } from 'Components/EditForm/EditForm';
+import { AddEditForm } from 'Components/AddEditForm/AddEditForm';
 import { ProductList } from 'Components/ProductList/ProductList';
 import { useAuth } from 'hooks/useAuth';
 import { useProductState } from 'hooks/useProductState';
@@ -10,23 +9,25 @@ import { getTitle } from 'services/home';
 import { selectUser } from 'store/auth/selectors';
 import { setStatusFilter } from 'store/filter/slice';
 import { Container, StyledHomeSection } from 'styles/components.styled';
-import { ADD_PRODUCT_PATH, GET_OPERATION } from 'utils/GlobalUtils';
+import {
+  ACTIVE,
+  ADD_PRODUCT_PATH,
+  EDIT_PRODUCT_PATH,
+  GET_OPERATION
+} from 'utils/GlobalUtils';
 
 const Home = () => {
   const { isLoggedIn } = useAuth();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-
   const { locale } = useSelector(selectUser);
-
   const title = getTitle(pathname, locale);
-
   const { collection, operation } = useProductState(pathname, GET_OPERATION);
 
   useEffect(() => {
     if (isLoggedIn) {
       if (operation) {
-        dispatch(setStatusFilter('active'));
+        dispatch(setStatusFilter(ACTIVE));
         dispatch(operation());
       }
     }
@@ -35,10 +36,11 @@ const Home = () => {
   return (
     <StyledHomeSection>
       <Container>
-        {pathname === ADD_PRODUCT_PATH ? (
-          <AddForm />
-        ) : pathname.split('/')[1] === 'edit' ? (
-          <EditForm />
+        {pathname === ADD_PRODUCT_PATH ||
+        `/${pathname.split('/')[1]}` === EDIT_PRODUCT_PATH ? (
+          <AddEditForm
+            dataId={pathname === ADD_PRODUCT_PATH ? 'add-form' : 'edit-form'}
+          />
         ) : (
           collection && <ProductList data={collection} title={title} />
         )}

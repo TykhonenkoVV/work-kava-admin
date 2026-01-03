@@ -1,34 +1,24 @@
-const currency = local => {
+export const currency = locale => {
   const values = {
     en: 36,
     de: 8364,
     ua: 8372
   };
-  return values[local];
+  return values[locale];
 };
 
-const toCapitalize = s => {
-  return String(s[0]).toUpperCase() + String(s).slice(1);
-};
+// const toCapitalize = s => {
+//   return String(s[0]).toUpperCase() + String(s).slice(1);
+// };
 
 const symbol = s => {
   return String.fromCharCode(s);
 };
 
-export const text = (e, title) => {
-  const splitedString = e.split('_');
-  const local = splitedString[splitedString.length - 1];
-  if (title === 'Price' || title === 'Preis' || title === 'Ціна') {
-    if (splitedString.length === 3) {
-      return `${local.toUpperCase()} ${toCapitalize(e.split('_')[1])} (${symbol(
-        currency(local)
-      )})`;
-    } else {
-      return `${local.toUpperCase()} (${symbol(currency(local))})`;
-    }
+export const text = (l, title) => {
+  if (title === 'standart' || title === 'xl') {
+    return `${l.toUpperCase()} (${symbol(currency(l))})`;
   } else {
-    if (splitedString.length > 1) {
-      return local.toUpperCase();
-    } else return toCapitalize(splitedString[0]);
+    return l.toUpperCase();
   }
 };

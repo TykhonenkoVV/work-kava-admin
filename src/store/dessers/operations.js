@@ -1,11 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { workKavaInnstance } from 'store/auth/operations';
+import { workKavaAdminInnstance } from 'store/auth/operations';
 
 export const getDesserts = createAsyncThunk(
   'desserts/get',
   async (_, thunkAPI) => {
     try {
-      const { data } = await workKavaInnstance.get('/desserts/all');
+      const { data } = await workKavaAdminInnstance.get('/desserts/all');
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -17,10 +17,11 @@ export const addDessert = createAsyncThunk(
   'desserts/create',
   async (credentials, thunkAPI) => {
     try {
-      const { data } = await workKavaInnstance.post('/desserts', credentials);
-
+      const { data } = await workKavaAdminInnstance.post(
+        '/desserts',
+        credentials
+      );
       const id = data.dessert._id;
-
       const { img, webpImg } = credentials;
       const imageData = { img, webpImg };
       const keys = Object.keys(imageData);
@@ -29,11 +30,10 @@ export const addDessert = createAsyncThunk(
       keys.forEach(el => {
         formData.append(el, imageData[el]);
       });
-      const { data: images } = await workKavaInnstance.post(
+      const { data: images } = await workKavaAdminInnstance.post(
         '/desserts/images',
         formData
       );
-
       return { ...data, ...images };
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -46,18 +46,14 @@ export const updateDessert = createAsyncThunk(
   async (dessertData, thunkAPI) => {
     const credentials = dessertData.data;
     try {
-      const { data } = await workKavaInnstance.patch(
+      const { data } = await workKavaAdminInnstance.patch(
         `/desserts/${dessertData.id}`,
         credentials
       );
-
       const id = data.updated._id;
-
       const { img, webpImg } = credentials;
       const imageData = { img, webpImg };
-
       const keys = Object.keys(imageData);
-
       if (!img && !webpImg) {
         return data;
       } else {
@@ -66,11 +62,10 @@ export const updateDessert = createAsyncThunk(
         keys.forEach(el => {
           if (imageData[el]) formData.append(el, imageData[el]);
         });
-        const { data: images } = await workKavaInnstance.post(
+        const { data: images } = await workKavaAdminInnstance.post(
           '/desserts/images',
           formData
         );
-
         return { ...data, ...images };
       }
     } catch (error) {
@@ -86,7 +81,7 @@ export const deleteDessert = createAsyncThunk(
   'desserts/deleteDessert',
   async (id, thunkAPI) => {
     try {
-      const { data } = await workKavaInnstance.delete(`/desserts/${id}`);
+      const { data } = await workKavaAdminInnstance.delete(`/desserts/${id}`);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue({

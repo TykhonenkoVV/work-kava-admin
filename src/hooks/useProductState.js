@@ -53,6 +53,13 @@ import {
 } from 'store/rolls/operations';
 import { selectIsLoadingRolls, selectRolls } from 'store/rolls/selectors';
 import {
+  addRoom,
+  deleteRoom,
+  getRooms,
+  updateRoom
+} from 'store/rooms/operations';
+import { selectIsLoadingRooms, selectRooms } from 'store/rooms/selectors';
+import {
   BURGERS_PATH,
   COFFE_CLASSIC_PATH,
   COFFE_WITH_MILK_PATH,
@@ -62,7 +69,8 @@ import {
   HOT_DOGS_PATH,
   PATCH_OPERATION,
   POST_OPERATION,
-  ROLLS_PATH
+  ROLLS_PATH,
+  ROOMS_PATH
 } from 'utils/GlobalUtils';
 
 export const useProductState = (path, method) => {
@@ -76,6 +84,7 @@ export const useProductState = (path, method) => {
   const isLoadingBurgers = useSelector(selectIsLoadingBurgrs);
   const isLoadingRolls = useSelector(selectIsLoadingRolls);
   const isLoadingHotDogs = useSelector(selectIsLoadingHotDogs);
+  const isLoadingRooms = useSelector(selectIsLoadingRooms);
   const isRefreshing = useSelector(selectIsRefreshing);
 
   const coffeeClassics = useSelector(selectCoffeeClassic);
@@ -84,6 +93,7 @@ export const useProductState = (path, method) => {
   const burgers = useSelector(selectBurgers);
   const rolls = useSelector(selectRolls);
   const hotDogs = useSelector(selectHotDogs);
+  const rooms = useSelector(selectRooms);
 
   if (path === COFFE_CLASSIC_PATH) {
     isLoading = isLoadingCoffeeClassic;
@@ -179,6 +189,22 @@ export const useProductState = (path, method) => {
     }
     if (method === DELETE_OPERATION) {
       operation = deleteHotDog;
+    }
+  }
+  if (path === ROOMS_PATH) {
+    isLoading = isLoadingRooms;
+    collection = rooms;
+    if (method === GET_OPERATION) {
+      operation = getRooms;
+    }
+    if (method === POST_OPERATION) {
+      operation = addRoom;
+    }
+    if (method === PATCH_OPERATION) {
+      operation = updateRoom;
+    }
+    if (method === DELETE_OPERATION) {
+      operation = deleteRoom;
     }
   }
   if (path === null) {

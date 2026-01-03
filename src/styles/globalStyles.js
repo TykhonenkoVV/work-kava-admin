@@ -13,7 +13,7 @@ export const GlobalStyles = {
     lineHeight: '1.2'
   },
   '#root': {
-    height: '100%',
+    minHeight: '100%',
     display: 'flex',
     flexDirection: 'column'
   },

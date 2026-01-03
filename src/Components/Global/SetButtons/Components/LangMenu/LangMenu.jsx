@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 import { selectUser } from 'store/auth/selectors';
 
 export const LangMenu = ({ isModalOpen, handleCklick, forwardedRef }) => {
-  const { local } = useSelector(selectUser);
+  const { locale } = useSelector(selectUser);
 
   return (
     <LangMenuUl
@@ -19,7 +19,7 @@ export const LangMenu = ({ isModalOpen, handleCklick, forwardedRef }) => {
       className={!isModalOpen ? 'visually-hidden' : null}
       ref={forwardedRef}
     >
-      {local !== LOCAL_EN && (
+      {locale !== LOCAL_EN && (
         <LangMenuItem>
           <LangBtn id={LOCAL_EN} type="button" onClick={handleCklick}>
             <img width={40} height={40} src={FLAG_UK_URL} alt="flag" />
@@ -27,7 +27,7 @@ export const LangMenu = ({ isModalOpen, handleCklick, forwardedRef }) => {
           </LangBtn>
         </LangMenuItem>
       )}
-      {local !== LOCAL_DE && (
+      {locale !== LOCAL_DE && (
         <LangMenuItem>
           <LangBtn id={LOCAL_DE} type="button" onClick={handleCklick}>
             <img width={40} height={40} src={FLAG_DE_URL} alt="flag" />
@@ -35,7 +35,7 @@ export const LangMenu = ({ isModalOpen, handleCklick, forwardedRef }) => {
           </LangBtn>
         </LangMenuItem>
       )}
-      {local !== LOCAL_UA && (
+      {locale !== LOCAL_UA && (
         <LangMenuItem>
           <LangBtn id={LOCAL_UA} type="button" onClick={handleCklick}>
             <img width={40} height={40} src={FLAG_UA_URL} alt="flag" />

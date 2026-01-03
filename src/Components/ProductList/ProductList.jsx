@@ -20,8 +20,6 @@ import {
   DELETE_OPERATION,
   EDIT_PRODUCT_PATH,
   IMAGE_CLOUD_URL,
-  LOCAL_DE,
-  LOCAL_EN,
   PATCH_OPERATION
 } from 'utils/GlobalUtils';
 import { selectUser } from 'store/auth/selectors';
@@ -37,38 +35,72 @@ import { useClickOutsideModal } from 'hooks/useClickOutsideModal';
 import { Modal } from 'Components/Global/Modal/Modal';
 import { AskModal } from 'Components/Global/AskModal/AskModal';
 import { ActionButton } from 'styles/components.styled';
+import { useProductError } from 'hooks/useProductError';
+import { InfoModal } from 'Components/Global/InfoModal/InfoModal';
 
 export const ProductList = ({ data, title, checkedRadio }) => {
   const dispatch = useDispatch();
-
-  const filterSelectRef = useRef(null);
-  const filterButtontRef = useRef(null);
-
-  const [method, setMethod] = useState();
-
-  const [cardData, setCardData] = useState();
-
-  const { isModalOpen, openModal, closeModal, toggleModal } = useModal();
-
-  useClickOutsideModal(
-    [filterSelectRef, filterButtontRef],
-    closeModal,
-    'selectFilter'
-  );
 
   const windowWidth = useWindowWidth();
 
   const { locale } = useSelector(selectUser);
 
+  const filterSelectRef = useRef(null);
+  const filterButtontRef = useRef(null);
+
   const { pathname } = useLocation();
+
+  const productError = useProductError();
+
+  const [filteredData, setFilteredData] = useState();
+  const [filterCaption, setFilterCaption] = useState(null);
+  const [method, setMethod] = useState();
+  const [cardData, setCardData] = useState();
+  const [isChanged, setIsChanged] = useState(false);
+
+  const {
+    isModalOpen: isAskArchiveModalOpen,
+    openModal: openAskArchiveModal,
+    closeModal: closeAskArchiveModal
+  } = useModal();
+
+  const {
+    isModalOpen: isAskDeleteModalOpen,
+    openModal: openAskDeleteModal,
+    closeModal: closeAskDeleteModal
+  } = useModal();
+
+  const {
+    isModalOpen: isInfoModalOpen,
+    openModal: openInfoModal,
+    closeModal: closeInfoModal
+  } = useModal();
+
+  const {
+    isModalOpen: isSelectFilterModalOpen,
+    closeModal: closeSelectFilterModal,
+    toggleModal: toggleSelectFilterModal
+  } = useModal();
+
+  useClickOutsideModal(
+    [filterSelectRef, filterButtontRef],
+    closeSelectFilterModal,
+    'selectFilter'
+  );
+
+  const shortLocale =
+    locale === 'en-UK' ? 'en' : locale === 'de-DE' ? 'de' : 'ua';
 
   const { isLoading, operation } = useProductState(pathname, method);
 
-  const [filteredData, setFilteredData] = useState();
-
-  const [filterCaption, setFilterCaption] = useState(null);
-
   const index = getMaxIndex(data) + 1;
+
+  useEffect(() => {
+    if (isChanged) {
+      setIsChanged(false);
+      openInfoModal();
+    }
+  }, [isChanged, openInfoModal]);
 
   useEffect(() => {
     setFilterCaption(lang[locale].only_active_cards);
@@ -79,23 +111,25 @@ export const ProductList = ({ data, title, checkedRadio }) => {
   const openAskModalArhive = data => {
     setMethod(PATCH_OPERATION);
     setCardData(data);
-    openModal('askArchive');
+    openAskArchiveModal();
   };
 
   const handleActionArchive = ({ id, archived }) => {
     dispatch(setStatusFilter('active'));
     dispatch(operation({ id, data: { archived: !archived } }));
+    setIsChanged(true);
   };
 
   const openAskModalDelete = data => {
     setMethod(DELETE_OPERATION);
     setCardData(data);
-    openModal('askDelete');
+    openAskDeleteModal();
   };
 
   const handleActionDelete = ({ id }) => {
     dispatch(setStatusFilter('active'));
     dispatch(operation(id));
+    setIsChanged(true);
   };
 
   const handleRadioChange = id => {
@@ -114,7 +148,7 @@ export const ProductList = ({ data, title, checkedRadio }) => {
   };
 
   const onTogle = () => {
-    toggleModal('selectFilter');
+    toggleSelectFilterModal();
   };
 
   return (
@@ -128,11 +162,11 @@ export const ProductList = ({ data, title, checkedRadio }) => {
           w={12}
           h={12}
           icon={'arrow'}
-          rotate={isModalOpen?.selectFilter ? '180deg' : 0}
+          rotate={isSelectFilterModalOpen ? '180deg' : 0}
         />
       </FilterButton>
       <FilterSelect
-        className={isModalOpen?.selectFilter ? null : 'visually-hidden'}
+        className={isSelectFilterModalOpen ? null : 'visually-hidden'}
         onChange={handleRadioChange}
         onToggle={onTogle}
         local={locale}
@@ -154,13 +188,7 @@ export const ProductList = ({ data, title, checkedRadio }) => {
         <StyledList>
           {filteredData?.map((el, i) => (
             <StyledLi key={el._id}>
-              <CardTitle>
-                {locale === LOCAL_EN
-                  ? el.title_en
-                  : locale === LOCAL_DE
-                  ? el.title_de
-                  : el.title_ua}
-              </CardTitle>
+              <CardTitle>{el[shortLocale].title}</CardTitle>
               <ImgWrapper
                 color={colors[i]}
                 className={el.archived ? 'archived' : null}
@@ -168,7 +196,7 @@ export const ProductList = ({ data, title, checkedRadio }) => {
                 <StyledImage
                   width={120}
                   src={`${IMAGE_CLOUD_URL}w_240,c_fill/${el.imgURL}`}
-                  alt={el.title_en}
+                  alt={el[shortLocale].title}
                 />
               </ImgWrapper>
               <CardButtonContainer>
@@ -199,11 +227,11 @@ export const ProductList = ({ data, title, checkedRadio }) => {
           ))}
         </StyledList>
       )}
-      {isModalOpen?.askArchive && (
-        <Modal onClose={() => closeModal('askArchive')}>
+      {isAskArchiveModalOpen && (
+        <Modal onClose={closeAskArchiveModal}>
           <AskModal
             action={handleActionArchive}
-            onCloseModal={() => closeModal('askArchive')}
+            onCloseModal={closeAskArchiveModal}
             data={cardData}
             names={{
               cancel: lang[locale].cancel,
@@ -214,16 +242,34 @@ export const ProductList = ({ data, title, checkedRadio }) => {
           />
         </Modal>
       )}
-      {isModalOpen?.askDelete && (
-        <Modal onClose={() => closeModal('askDelete')}>
+      {isAskDeleteModalOpen && (
+        <Modal onClose={closeAskDeleteModal}>
           <AskModal
             action={handleActionDelete}
-            onCloseModal={() => closeModal('askDelete')}
+            onCloseModal={closeAskDeleteModal}
             data={cardData}
             names={{
               cancel: lang[locale].cancel,
               action: lang[locale].delete
             }}
+          />
+        </Modal>
+      )}
+      {isInfoModalOpen && !isLoading && !productError[pathname] && (
+        <Modal onClose={closeInfoModal}>
+          <InfoModal
+            type="fulfilled"
+            onClose={closeInfoModal}
+            text={lang[locale].success_update}
+          />
+        </Modal>
+      )}
+      {isInfoModalOpen && !isLoading && productError[pathname] && (
+        <Modal onClose={closeInfoModal}>
+          <InfoModal
+            type="rejected"
+            onClose={closeInfoModal}
+            text={productError[pathname].message}
           />
         </Modal>
       )}

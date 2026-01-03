@@ -96,6 +96,12 @@ const App = () => {
             }
           />
           <Route
+            path="/rooms"
+            element={
+              <PrivateRoute redirectTo="/auth" component={<HomePage />} />
+            }
+          />
+          <Route
             path="/add-product"
             element={
               <PrivateRoute redirectTo="/auth" component={<HomePage />} />
