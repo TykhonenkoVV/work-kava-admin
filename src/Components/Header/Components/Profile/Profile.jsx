@@ -1,7 +1,6 @@
 import { useAuth } from 'hooks/useAuth';
-// import { WKForm } from 'Components/Global/WKForm/WKForm';
 import { useDispatch } from 'react-redux';
-import { logOut, updateUser } from 'store/auth/operations';
+import { logOut, updateAdmin } from 'store/auth/operations';
 import {
   ButtonLogOut,
   CheckBox,
@@ -24,12 +23,16 @@ import { StyledButton } from 'styles/components.styled';
 import { useModal } from 'hooks/useModal';
 import { Modal } from 'Components/Global/Modal/Modal';
 import { InfoModal } from 'Components/Global/InfoModal/InfoModal';
+import { ErrorText } from 'Components/Global/ErrorText/ErrorText';
+import { validate } from 'services/authServices';
 
 export const Profile = ({ action }) => {
   const dispatch = useDispatch();
   const { locale, isRefreshing, user } = useAuth();
   const { name, email } = user;
   const { isModalOpen, openModal, closeModal } = useModal();
+
+  const [errors, setErrors] = useState(null);
 
   const [changeCheckBox, setChangeCheckBox] = useState(false);
   const [show, setShow] = useState({
@@ -38,8 +41,8 @@ export const Profile = ({ action }) => {
   });
 
   const defaultValues = {
-    name: name,
-    email: email
+    name,
+    email
   };
 
   const handleChangeCheckBox = e => {
@@ -55,11 +58,17 @@ export const Profile = ({ action }) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const objFormData = Object.fromEntries(formData);
-    console.log(objFormData);
-
-    // const isOrderedForm = orderForm(formData, defaultValues);
-    // if (!isOrderedForm) openModal();
-    // dispatch(updateUser(isOrderedForm));
+    //
+    const response = validate(objFormData, locale);
+    if (Object.keys(response).length !== 0) {
+      setErrors(response);
+      console.log(response);
+    } else {
+      setErrors(null);
+      const isOrderedForm = orderForm(objFormData, defaultValues);
+      if (!isOrderedForm) openModal();
+      else dispatch(updateAdmin(isOrderedForm));
+    }
   };
 
   const onLogOut = () => {
@@ -93,6 +102,7 @@ export const Profile = ({ action }) => {
               }}
             />
           </InputWrapper>
+          {errors?.name && <ErrorText text={errors.name} />}
         </LabelStyled>
         <LabelStyled>
           <InputWrapper>
@@ -114,6 +124,7 @@ export const Profile = ({ action }) => {
               }}
             />
           </InputWrapper>
+          {errors?.email && <ErrorText text={errors.email} />}
         </LabelStyled>
         <CheckBoxLabelStyled>
           <CheckBoxInput
@@ -160,6 +171,7 @@ export const Profile = ({ action }) => {
               />
             </RightButton>
           </InputWrapper>
+          {errors?.password && <ErrorText text={errors.password} />}
         </LabelStyled>
         <LabelStyled>
           <InputWrapper>
@@ -195,6 +207,7 @@ export const Profile = ({ action }) => {
               />
             </RightButton>
           </InputWrapper>
+          {errors?.new_password && <ErrorText text={errors.new_password} />}
         </LabelStyled>
         <StyledButton type="submit">{lang[locale].submit}</StyledButton>
         <ButtonLogOut onClick={onLogOut}>

@@ -53,7 +53,7 @@ export const logIn = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       const { data } = await workKavaAdminInnstance.post(
-        '/auth/signin',
+        '/auth/signin-admin',
         credentials
       );
       setAuthHeader(data.tokens.accessToken);
@@ -67,7 +67,7 @@ export const logIn = createAsyncThunk(
   }
 );
 
-export const refreshUser = createAsyncThunk(
+export const refreshAdmin = createAsyncThunk(
   'auth/refresh',
   async (_, thunkAPI) => {
     const state = thunkAPI.getState();
@@ -82,7 +82,7 @@ export const refreshUser = createAsyncThunk(
 
     try {
       setAuthHeader(persistedToken);
-      const { data } = await workKavaAdminInnstance.get('/auth/current');
+      const { data } = await workKavaAdminInnstance.get('/auth/current-admin');
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue({
@@ -105,7 +105,7 @@ export const refreshToken = createAsyncThunk(
 
     setAuthHeader(persistToken);
     try {
-      const { data } = await workKavaAdminInnstance.post('/auth/refresh');
+      const { data } = await workKavaAdminInnstance.post('/auth/refresh-admin');
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue({
@@ -123,7 +123,7 @@ export const updateAvatar = createAsyncThunk(
       const formData = new FormData();
       formData.append('avatarURL', avatarFile);
       const { data } = await workKavaAdminInnstance.patch(
-        '/auth/avatars',
+        '/admins/avatars',
         formData
       );
       return data.avatarURL;
@@ -136,12 +136,12 @@ export const updateAvatar = createAsyncThunk(
   }
 );
 
-export const updateUser = createAsyncThunk(
-  'auth/updateUser',
-  async (userData, { dispatch, rejectWithValue }) => {
-    if (userData.avatar) {
+export const updateAdmin = createAsyncThunk(
+  'auth/updateAdmin',
+  async (adminData, { dispatch, rejectWithValue }) => {
+    if (adminData.avatar) {
       try {
-        await dispatch(updateAvatar(userData.avatar)).unwrap();
+        await dispatch(updateAvatar(adminData.avatar)).unwrap();
       } catch (error) {
         return rejectWithValue({
           message: error.response.data.message,
@@ -150,7 +150,7 @@ export const updateUser = createAsyncThunk(
       }
     }
     try {
-      const { data } = await workKavaAdminInnstance.patch('/users', userData);
+      const { data } = await workKavaAdminInnstance.patch('/admins', adminData);
       return data;
     } catch (error) {
       return rejectWithValue({

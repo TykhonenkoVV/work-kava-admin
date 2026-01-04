@@ -48,7 +48,12 @@ export const lang = {
     error_empty_field: 'This field cannot be empty.',
     error_empty_file: 'Image expected.',
     error_numeric_value: 'This field must contain a number.',
-    error_null_value: 'The value in this field cannot be zero.'
+    error_null_value: 'The value in this field cannot be zero.',
+    error_user_name: 'The name must contain only letters and spaces.',
+    error_email: 'Please enter correct e-mail.',
+    error_pass:
+      'The password must contain at least 8 characters, at least one uppercase and at least one lowercase Latin letter, at least one number and at least one special character.',
+    error_confirm_pass: 'The passwords do not match'
   },
   'de-DE': {
     edit_profile: 'Profil bearbeiten',
@@ -99,7 +104,12 @@ export const lang = {
     error_empty_field: 'Dieses Feld darf nicht leer sein.',
     error_empty_file: 'Es wird ein Bild erwartet.',
     error_numeric_value: 'Dieses Feld darf nur eine Zahl enthalten.',
-    error_null_value: 'Der Wert in diesem Feld darf nicht null sein.'
+    error_null_value: 'Der Wert in diesem Feld darf nicht null sein.',
+    error_user_name: 'Der Name darf nur Buchstaben und Leerzeichen enthalten.',
+    error_email: 'Bitte geben Sie eine korrekte E-Mail-Adresse ein.',
+    error_pass:
+      'Das Passwort muss mindestens 8 Zeichen lang sein und mindestens einen lateinischen Großbuchstaben, mindestens einen Kleinbuchstaben, mindestens eine Zahl und mindestens ein Sonderzeichen enthalten.',
+    error_confirm_pass: 'Die Passwörter stimmen nicht überein'
   },
   'uk-UA': {
     edit_profile: 'Редагувати профіль',
@@ -150,6 +160,11 @@ export const lang = {
     error_empty_field: 'Це поле не може бути порожнім.',
     error_empty_file: 'Очикується зображення.',
     error_numeric_value: 'Це поле може містити тільки число.',
-    error_null_value: 'Значення в цьому полі не може дорівнювати нулю.'
+    error_null_value: 'Значення в цьому полі не може дорівнювати нулю.',
+    error_user_name: "Ім'я повинно містити тільки літери та пробіли.",
+    error_email: 'Будь ласка введіть корректний e-mail.',
+    error_pass:
+      'Пароль повинен містити мінімум 8 символів, як мінімум одну прописну і мінімум одну маленьку букву латинниці, мінімум одну цифру і мінімум один спецсимвол.',
+    error_confirm_pass: 'Паролі не співпадають'
   }
 };

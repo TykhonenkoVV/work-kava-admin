@@ -33,6 +33,7 @@ export const AuthLogo = styled.div`
 `;
 
 export const Subtitle = styled.p`
+  text-align: center;
   text-transform: uppercase;
 `;
 

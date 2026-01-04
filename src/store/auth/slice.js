@@ -3,9 +3,9 @@ import {
   // register,
   logIn,
   logOut,
-  refreshUser,
   refreshToken,
-  updateUser
+  refreshAdmin,
+  updateAdmin
 } from './operations';
 import { userLocale } from 'services/authServices';
 
@@ -30,6 +30,11 @@ const initialState = {
 const authSlice = createSlice({
   name: 'auth',
   initialState,
+  reducers: {
+    clearError: (state, { payload }) => {
+      state.error = null;
+    }
+  },
   extraReducers: builder => {
     builder
       // .addCase(register.pending, (state, { payload }) => {
@@ -50,7 +55,7 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(logIn.fulfilled, (state, { payload }) => {
-        state.user = payload.user;
+        state.user = payload.admin;
         state.accessToken = payload.tokens.accessToken;
         state.refreshToken = payload.tokens.refreshToken;
         state.isLoggedIn = true;
@@ -86,17 +91,17 @@ const authSlice = createSlice({
         state.isLoggedIn = false;
         state.error = payload;
       })
-      .addCase(refreshUser.pending, state => {
+      .addCase(refreshAdmin.pending, state => {
         state.isRefreshing = true;
         state.error = null;
       })
-      .addCase(refreshUser.fulfilled, (state, { payload }) => {
+      .addCase(refreshAdmin.fulfilled, (state, { payload }) => {
         state.user = payload;
         state.isRefreshing = false;
         state.isLoggedIn = true;
         state.error = null;
       })
-      .addCase(refreshUser.rejected, (state, { payload }) => {
+      .addCase(refreshAdmin.rejected, (state, { payload }) => {
         state.isRefreshing = false;
         state.isLoggedIn = false;
         state.error = payload;
@@ -116,20 +121,21 @@ const authSlice = createSlice({
         state.isLoggedIn = false;
         state.error = payload;
       })
-      .addCase(updateUser.pending, state => {
+      .addCase(updateAdmin.pending, state => {
         state.isRefreshing = true;
         state.error = null;
       })
-      .addCase(updateUser.fulfilled, (state, { payload }) => {
+      .addCase(updateAdmin.fulfilled, (state, { payload }) => {
         state.user = payload;
         state.isRefreshing = false;
         state.error = null;
       })
-      .addCase(updateUser.rejected, (state, { payload }) => {
+      .addCase(updateAdmin.rejected, (state, { payload }) => {
         state.isRefreshing = false;
         state.error = payload;
       });
   }
 });
 
+export const { clearError } = authSlice.actions;
 export const authReducer = authSlice.reducer;

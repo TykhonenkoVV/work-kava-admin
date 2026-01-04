@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { updateUser } from 'store/auth/operations';
+import { updateAdmin } from 'store/auth/operations';
 import { selectIsRefreshing } from 'store/auth/selectors';
 import {
   addBurger,
@@ -209,7 +209,7 @@ export const useProductState = (path, method) => {
   }
   if (path === null) {
     isLoading = isRefreshing;
-    if (method === PATCH_OPERATION) operation = updateUser;
+    if (method === PATCH_OPERATION) operation = updateAdmin;
   }
 
   return { isLoading, collection, operation };

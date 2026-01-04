@@ -3,7 +3,7 @@ import { lazy, useEffect, useState } from 'react';
 import { Global, ThemeProvider } from '@emotion/react';
 import { Layout } from './Global/Layout';
 import { useDispatch, useSelector } from 'react-redux';
-import { refreshUser } from 'store/auth/operations';
+import { refreshAdmin } from 'store/auth/operations';
 import { RestrictedRoute } from './Global/restrictedRoute';
 import { PrivateRoute } from './Global/privateRoute';
 import AuthPage from 'Pages/AuthPage';
@@ -33,14 +33,14 @@ const App = () => {
   };
 
   useEffect(() => {
-    dispatch(refreshUser());
+    dispatch(refreshAdmin());
   }, [dispatch]);
 
   useEffect(() => {
     const accessToken = searchParams.get('accessToken');
     const refreshToken = searchParams.get('refreshToken');
     if (accessToken && refreshToken) {
-      dispatch(refreshUser());
+      dispatch(refreshAdmin());
     }
   }, [searchParams, dispatch]);
 
